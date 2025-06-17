@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LineSpawner : MonoBehaviour
 {
-    private const float HEIGHT_SCALE_TILE = 0.23f;
+    private const float HEIGHT_SCALE_TILE = 0.15f;
     
     [SerializeField] private GameObject lineContainer;
     [SerializeField] private RectTransform[] lines;

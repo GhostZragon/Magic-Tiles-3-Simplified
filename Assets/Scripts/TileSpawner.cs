@@ -30,4 +30,15 @@ public class TileSpawner : MonoBehaviour
                 fallDuration).OnComplete(() => { tile.RecoverSelf(); }).SetEase(Ease.Linear);
 
     }
+    
+    public void SpawnTile(NoteData noteData, Transform parent, float fallDuration)
+    {
+        var tile = tilePool.ReUse<SingleTile>(Vector3.zero, singleTilePrefab.transform.rotation, parent);
+        tile.RectTransform.anchoredPosition = Vector2.zero;
+        tile.RectTransform
+            .DOAnchorPos(
+                new Vector2(0, -parent.GetComponent<RectTransform>().rect.height * 0.74f),
+                fallDuration).OnComplete(() => { tile.RecoverSelf(); }).SetEase(Ease.Linear);
+
+    }
 }

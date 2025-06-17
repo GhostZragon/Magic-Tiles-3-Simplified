@@ -1,0 +1,304 @@
+{
+    "songName": "Twinkle Little Star",
+    "artist": "Unknown",
+    "bpm": 80.0,
+    "offset": 0.0,
+    "fallingDuration": 1.5,
+    "difficultStar": 1,
+    "notes": [
+        {
+            "beatTime": 1.7879364490509034,
+            "duration": 0.0,
+            "lineIndex": 0,
+            "type": 0
+        },
+        {
+            "beatTime": 2.3800454139709474,
+            "duration": 0.0,
+            "lineIndex": 1,
+            "type": 0
+        },
+        {
+            "beatTime": 2.983764171600342,
+            "duration": 0.0,
+            "lineIndex": 2,
+            "type": 0
+        },
+        {
+            "beatTime": 3.5758728981018068,
+            "duration": 0.0,
+            "lineIndex": 3,
+            "type": 0
+        },
+        {
+            "beatTime": 4.179591655731201,
+            "duration": 0.0,
+            "lineIndex": 0,
+            "type": 0
+        },
+        {
+            "beatTime": 4.783310890197754,
+            "duration": 0.0,
+            "lineIndex": 1,
+            "type": 0
+        },
+        {
+            "beatTime": 5.387029647827148,
+            "duration": 0.0,
+            "lineIndex": 2,
+            "type": 0
+        },
+        {
+            "beatTime": 5.979138374328613,
+            "duration": 0.0,
+            "lineIndex": 3,
+            "type": 0
+        },
+        {
+            "beatTime": 6.582857131958008,
+            "duration": 0.0,
+            "lineIndex": 0,
+            "type": 0
+        },
+        {
+            "beatTime": 7.186575889587402,
+            "duration": 0.0,
+            "lineIndex": 1,
+            "type": 0
+        },
+        {
+            "beatTime": 7.790294647216797,
+            "duration": 0.0,
+            "lineIndex": 2,
+            "type": 0
+        },
+        {
+            "beatTime": 8.382403373718262,
+            "duration": 0.0,
+            "lineIndex": 3,
+            "type": 0
+        },
+        {
+            "beatTime": 8.986122131347657,
+            "duration": 0.0,
+            "lineIndex": 0,
+            "type": 0
+        },
+        {
+            "beatTime": 9.578230857849121,
+            "duration": 0.0,
+            "lineIndex": 1,
+            "type": 0
+        },
+        {
+            "beatTime": 10.181950569152832,
+            "duration": 0.0,
+            "lineIndex": 2,
+            "type": 0
+        },
+        {
+            "beatTime": 10.774059295654297,
+            "duration": 0.0,
+            "lineIndex": 3,
+            "type": 0
+        },
+        {
+            "beatTime": 11.389388084411621,
+            "duration": 0.0,
+            "lineIndex": 0,
+            "type": 0
+        },
+        {
+            "beatTime": 11.981496810913086,
+            "duration": 0.0,
+            "lineIndex": 1,
+            "type": 0
+        },
+        {
+            "beatTime": 12.58521556854248,
+            "duration": 0.0,
+            "lineIndex": 2,
+            "type": 0
+        },
+        {
+            "beatTime": 13.177324295043946,
+            "duration": 0.0,
+            "lineIndex": 3,
+            "type": 0
+        },
+        {
+            "beatTime": 13.78104305267334,
+            "duration": 0.0,
+            "lineIndex": 0,
+            "type": 0
+        },
+        {
+            "beatTime": 14.373151779174805,
+            "duration": 0.0,
+            "lineIndex": 1,
+            "type": 0
+        },
+        {
+            "beatTime": 14.9768705368042,
+            "duration": 0.0,
+            "lineIndex": 2,
+            "type": 0
+        },
+        {
+            "beatTime": 15.568979263305664,
+            "duration": 0.0,
+            "lineIndex": 3,
+            "type": 0
+        },
+        {
+            "beatTime": 16.172698974609376,
+            "duration": 0.0,
+            "lineIndex": 0,
+            "type": 0
+        },
+        {
+            "beatTime": 16.776416778564454,
+            "duration": 0.0,
+            "lineIndex": 1,
+            "type": 0
+        },
+        {
+            "beatTime": 17.380136489868165,
+            "duration": 0.0,
+            "lineIndex": 2,
+            "type": 0
+        },
+        {
+            "beatTime": 17.983854293823243,
+            "duration": 0.0,
+            "lineIndex": 3,
+            "type": 0
+        },
+        {
+            "beatTime": 18.575963973999025,
+            "duration": 0.0,
+            "lineIndex": 0,
+            "type": 0
+        },
+        {
+            "beatTime": 19.1796817779541,
+            "duration": 0.0,
+            "lineIndex": 1,
+            "type": 0
+        },
+        {
+            "beatTime": 19.783401489257814,
+            "duration": 0.0,
+            "lineIndex": 2,
+            "type": 0
+        },
+        {
+            "beatTime": 20.37550926208496,
+            "duration": 0.0,
+            "lineIndex": 3,
+            "type": 0
+        },
+        {
+            "beatTime": 20.979228973388673,
+            "duration": 0.0,
+            "lineIndex": 0,
+            "type": 0
+        },
+        {
+            "beatTime": 21.594558715820314,
+            "duration": 0.0,
+            "lineIndex": 1,
+            "type": 0
+        },
+        {
+            "beatTime": 22.18666648864746,
+            "duration": 0.0,
+            "lineIndex": 2,
+            "type": 0
+        },
+        {
+            "beatTime": 22.790386199951173,
+            "duration": 0.0,
+            "lineIndex": 3,
+            "type": 0
+        },
+        {
+            "beatTime": 23.38249397277832,
+            "duration": 0.0,
+            "lineIndex": 0,
+            "type": 0
+        },
+        {
+            "beatTime": 23.99782371520996,
+            "duration": 0.0,
+            "lineIndex": 1,
+            "type": 0
+        },
+        {
+            "beatTime": 24.58993148803711,
+            "duration": 0.0,
+            "lineIndex": 2,
+            "type": 0
+        },
+        {
+            "beatTime": 25.19365119934082,
+            "duration": 0.0,
+            "lineIndex": 3,
+            "type": 0
+        },
+        {
+            "beatTime": 25.78575897216797,
+            "duration": 0.0,
+            "lineIndex": 0,
+            "type": 0
+        },
+        {
+            "beatTime": 26.40108871459961,
+            "duration": 0.0,
+            "lineIndex": 1,
+            "type": 0
+        },
+        {
+            "beatTime": 26.993196487426759,
+            "duration": 0.0,
+            "lineIndex": 2,
+            "type": 0
+        },
+        {
+            "beatTime": 27.59691619873047,
+            "duration": 0.0,
+            "lineIndex": 3,
+            "type": 0
+        },
+        {
+            "beatTime": 28.18902587890625,
+            "duration": 0.0,
+            "lineIndex": 0,
+            "type": 0
+        },
+        {
+            "beatTime": 28.792743682861329,
+            "duration": 0.0,
+            "lineIndex": 1,
+            "type": 0
+        },
+        {
+            "beatTime": 29.39646339416504,
+            "duration": 0.0,
+            "lineIndex": 2,
+            "type": 0
+        },
+        {
+            "beatTime": 30.000181198120118,
+            "duration": 0.0,
+            "lineIndex": 3,
+            "type": 0
+        },
+        {
+            "beatTime": 30.5922908782959,
+            "duration": 0.0,
+            "lineIndex": 0,
+            "type": 0
+        }
+    ]
+}

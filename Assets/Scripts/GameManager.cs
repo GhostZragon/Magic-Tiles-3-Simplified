@@ -1,26 +1,33 @@
-﻿using Sirenix.OdinInspector;
+﻿using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class GameManager : UnitySingleton<GameManager>
 {
     [Header("References")]
     [SerializeField] private MusicConductor conductor;
+
     [SerializeField] private TileSpawner tileSpawner;
     [SerializeField] private LineSpawner lineSpawner;
     [SerializeField] private StartTile startTilePrefab;
+
     [Header("Settings")]
-    [SerializeField] private float backgroundMusicDelay = 1;
     [SerializeField] private int lineCounts = 4;
-    
+
     [Header("Difficult Settings")]
     [SerializeField] private float fallDuration = 2f;
-    [SerializeField] private float bpm = 60f;
 
-    private int nextSpawnBeat;
+    [SerializeField] private float pitchMultiplier = 1;
+    [SerializeField] private float bpm = 80f;
+    private NoteDataLoader noteDataLoader;
+    private Queue<NoteData> upcomingNotes = new();
 
-
+    private double starTimeBackgroundMusic;
+    private float AdjustedFallDuration => fallDuration / pitchMultiplier;
+    private double AdjustedBeatTime(NoteData note) => note.beatTime / pitchMultiplier;
     private void Start()
     {
+        noteDataLoader = GetComponent<NoteDataLoader>();
         Invoke(nameof(Init), 2f);
     }
 
@@ -29,48 +36,48 @@ public class GameManager : UnitySingleton<GameManager>
     {
         var parent = GetRandomLineParent();
         var startTile = Instantiate(startTilePrefab, parent);
-        
         startTile.RectTransform.anchoredPosition =
-            new Vector2(0, - parent.GetComponent<RectTransform>().rect.height * 0.75f);
-        
+            new Vector2(0, -parent.GetComponent<RectTransform>().rect.height * 0.75f);
+
         lineSpawner.SetLineCounts(lineCounts);
-        
+
         var width = lineSpawner.GetTileWidth();
         var height = lineSpawner.GetTileHeight();
-        
+
         tileSpawner.Init(width, height);
     }
 
     public void StartGame()
     {
-        nextSpawnBeat = -1;
-        conductor.Setup(bpm, backgroundMusicDelay);
-    }
+        // delay for first note
+        float offset;
+        upcomingNotes = noteDataLoader.LoadNoteQueue(out bpm, out offset);
 
+        if (upcomingNotes == null)
+        {
+            Debug.LogError("Up coming note is null, please check it again!", gameObject);
+            return;
+        }
+        // if background music start very soon, we should have delay to spawning
+        conductor.Setup(bpm,pitchMultiplier, AdjustedBeatTime(upcomingNotes.Peek()) < AdjustedFallDuration ? AdjustedFallDuration : 0f);
+
+        starTimeBackgroundMusic = AudioSettings.dspTime;
+    }
 
     private void Update()
     {
-        if (conductor.HasEnded) return;
-        
-        int currentBeat = conductor.GetCurrentBeat();
-        double songPos = conductor.GetSongPositionDsp();
-        float secondsPerBeat = conductor.GetSecondsPerBeat();
-
-        // Dự đoán khi nào tile sẽ đến "vùng nhấn"
-        int lookaheadBeats = Mathf.CeilToInt(fallDuration / secondsPerBeat) + 1;
-        
-        while (currentBeat + lookaheadBeats > nextSpawnBeat) // spawn sớm trước 4 beats
+        if (upcomingNotes.Count > 0)
         {
-            double timeToHit = nextSpawnBeat * secondsPerBeat;
-            double spawnTime = timeToHit - fallDuration;
+            var peek = upcomingNotes.Peek();
+            var adjustedFallDuration = fallDuration / pitchMultiplier;
+            double adjustedTime = peek.beatTime / pitchMultiplier;
 
-            if (spawnTime >= conductor.GetSongPositionDsp())
+            // timing 
+            if (AudioSettings.dspTime >= starTimeBackgroundMusic + adjustedTime - adjustedFallDuration)
             {
-                var parent = GetRandomLineParent();
-                tileSpawner.SpawnTile(nextSpawnBeat, parent, fallDuration);
+                tileSpawner.SpawnTile(peek, GetRandomLineParent(), adjustedFallDuration);
+                upcomingNotes.Dequeue();
             }
-
-            nextSpawnBeat++;
         }
     }
 
