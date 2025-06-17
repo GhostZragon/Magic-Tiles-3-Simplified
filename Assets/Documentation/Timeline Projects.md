@@ -25,16 +25,18 @@
     - Thêm safe tap từ một nữa hoặc độ dài nhất định cho player
     - Nếu tap một phần và thả thì không tính là miss và không dẫn đến thua game
     - Không tap lại được nếu thả ra
-- [ ] Ghi lại logic chấm điểm (Perfect / Good / Miss)
-- [ ] Xác định cách spawn tile theo beat (dùng coroutine hay map)
-- [ ] Note các yếu tố "feel" quan trọng: độ trễ, animation, UX
-- [ ] Xác định cách generate map để spawn tile
+- [x] Ghi lại logic chấm điểm (Perfect / Good / Miss)
+- [x] Xác định cách spawn tile theo beat (dùng coroutine hay map)
+- [x] Note các yếu tố "feel" quan trọng: độ trễ, animation, UX
+- [x] Xác định cách generate map để spawn tile
 
 ### ⏰ 14h30 – 16h30 (2h): 🎮 Setup dự án + Tile cơ bản
-- [ ] Tạo project Unity 2021.3 LTS
-- [ ] Setup Canvas, UI tile prefab
-- [ ] Tile spawn theo nhịp (giả lập beat bằng Coroutine)
-
+- [x] Tạo project Unity 2021.3 LTS
+- [x] Setup Canvas, UI tile prefab
+- [x] Tile spawn theo nhịp (giả lập beat bằng Coroutine)
+- [x] Generate beatmap theo bpm, load và sinh tile theo cấu hình
+- [x] Tạo cấu trúc data để lưu trữ background music
+- [x] Thử để nhạc chạy ở tốc độ cao hơn
 ### ⏰ 16h30 – 19h00 (2.5h): 🎯 Input + Scoring + Game Over
 - [ ] Tap tile → xác định thời điểm (± delta)
 - [ ] Phân loại Perfect / Good / Miss
