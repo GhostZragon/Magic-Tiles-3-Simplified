@@ -25,7 +25,7 @@ public class NoteDataLoader : MonoBehaviour
         string json = File.ReadAllText(path);
         BeatmapWrapper beatmap = JsonUtility.FromJson<BeatmapWrapper>(json);
       
-        beatmap.notes.Sort((a, b) => a.beatTime.CompareTo(b.beatTime));
+        // beatmap.notes.Sort((a, b) => a.beatTime.CompareTo(b.beatTime));
         bpm = beatmap.bpm;
         offset = beatmap.offset;
 

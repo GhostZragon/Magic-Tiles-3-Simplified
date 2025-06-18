@@ -91,9 +91,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RectTransform: {fileID: 0}
-  image: {fileID: 5621561112146610905}
-  canMove: 0
-  scrollVerticalSpeed: 800
+  btn: {fileID: 0}
 --- !u!114 &4113702809772746210
 MonoBehaviour:
   m_ObjectHideFlags: 0

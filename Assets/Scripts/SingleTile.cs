@@ -6,6 +6,7 @@ public class SingleTile : BaseMusicTile
     protected override void OnClick()
     {
         base.OnClick();
+        CreateResultText();
         RecoverSelf();
     }
 }

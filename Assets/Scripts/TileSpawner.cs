@@ -9,6 +9,7 @@ public class TileSpawner : MonoBehaviour
     [Header("References")]
     [SerializeField] private SingleTile singleTilePrefab;
 
+    [SerializeField] private AnimationCurve animationCurve;
     private nObjectPool tilePool;
 
     public void Init(float width, float height)
@@ -46,12 +47,19 @@ public class TileSpawner : MonoBehaviour
         float parentHeight = parentRect.rect.height;
         float hitY = -parentHeight * 0.75f;
 
-        float fallDistance = parentHeight * 1.25f;
+        float fallDistance = parentHeight;
 
         float startY = hitY + fallDistance;
 
         var tile = tilePool.ReUse<SingleTile>(Vector3.zero, singleTilePrefab.transform.rotation, parentRect);
-        tile.Init(noteData.beatTime, fallDuration, startY, hitY, backgroundAudioSource);
+
+        tile.Init(
+            hitTime: noteData.beatTime,
+            fallDuration: fallDuration,
+            fallDistance: fallDistance,
+            audioSource: backgroundAudioSource,
+            moveCurve: animationCurve
+        );
 
 
         // tile.RectTransform.anchoredPosition = Vector2.zero;
