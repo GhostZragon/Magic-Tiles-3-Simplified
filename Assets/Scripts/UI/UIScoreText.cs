@@ -11,6 +11,10 @@ public class UIScoreText : RectCachedMono
     protected override void Awake()
     {
         base.Awake();
+    }
+
+    private void OnEnable()
+    {
         scoreText.text = "";
     }
 

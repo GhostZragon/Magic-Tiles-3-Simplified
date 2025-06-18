@@ -6,9 +6,8 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [DefaultExecutionOrder(-99)]
-public class UIManager : MonoBehaviour
+public class UIManager : UnitySingleton<UIManager>
 {
-    public static UIManager instance;
     public Camera UICamera;
     private Dictionary<Type, BaseView> UIViewDictionary = new();
 
@@ -17,11 +16,28 @@ public class UIManager : MonoBehaviour
     private Dictionary<Type, BaseView> prefabsDictionary = new();
 
     private BaseView mainView;
-    public UnityEvent OnChangedView;
-    protected virtual void Awake()
+
+    protected override void Awake()
     {
-        instance = this;
-        DontDestroyOnLoad(gameObject);
+        base.Awake();
+        var views = GetComponentsInChildren<BaseView>();
+
+        foreach (var view in views)
+        {
+            var type = view.GetType();
+            if (UIViewDictionary.ContainsKey(type))
+            {
+                Debug.Log(
+                    $"This type is already contain in dictionary: {type}, type is in dictionary is {UIViewDictionary[type].gameObject.name}");
+                continue;
+            }
+            else
+            {
+                Debug.Log($"Add {type} to views", view.gameObject);
+            }
+
+            UIViewDictionary[type] = view;
+        }
     }
 
     public T Get<T>() where T : BaseView
@@ -29,10 +45,11 @@ public class UIManager : MonoBehaviour
         Type type = typeof(T);
 
         UIViewDictionary.TryGetValue(type, out BaseView view);
-        if(view != null)
+        if (view != null)
         {
             return (T)view;
         }
+
         return null;
     }
 
@@ -45,14 +62,16 @@ public class UIManager : MonoBehaviour
             {
                 await mainView.Hide(true);
             }
+
             mainView = view;
             await mainView.Show(true);
         }
+
         return view;
     }
 
     private Dictionary<string, GameObject> popupPrefabs = new();
-    
+
     public GameObject GetPopup(string name, bool isBlockScreen = false)
     {
         return null;

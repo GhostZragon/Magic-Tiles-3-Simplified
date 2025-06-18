@@ -32,6 +32,8 @@ public class BaseView : MonoBehaviour
             return;
         }
 
+        canvasGroup.blocksRaycasts = true;
+        canvasGroup.interactable = true;
         canvasGroup.DOFade(1, 0);
     }
 
@@ -44,6 +46,8 @@ public class BaseView : MonoBehaviour
             await Task.WhenAll(UITask);
             return;
         }
+        canvasGroup.blocksRaycasts = false;
+        canvasGroup.interactable = false;
         canvasGroup.DOFade(0, 0);
         
     }

@@ -1,10 +1,16 @@
 ﻿using System.Collections.Generic;
-using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.Events;
 
+public enum GameState
+{
+    None,
+    Playing,
+    Result
+}
 public class GameManager : UnitySingleton<GameManager>
 {
+    private const float startTileOffsetFactor = 0.75f;
+
     [Header("References")]
     [SerializeField] private MusicConductor conductor;
 
@@ -32,23 +38,54 @@ public class GameManager : UnitySingleton<GameManager>
     private void Start()
     {
         noteDataLoader = GetComponent<NoteDataLoader>();
-        Invoke(nameof(Init), 1f);
+        GameEvent<LoadSongEvent>.Register(HandleSongLoadEvent);
     }
-    
-    [Button]
-    public void Init()
+
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
+        GameEvent<LoadSongEvent>.Unregister(HandleSongLoadEvent);
+        
+    }
+
+    private void HandleSongLoadEvent(LoadSongEvent obj)
+    {
+        UIManager.Instance.Get<GameplayUI>().Show();
+        UIManager.Instance.Get<MainMenuUI>().Hide();
+        
+        // TODO: Make Sure Unload in future if have time
+        // Just load beat map and audio clip
+        noteDataLoader.jsonFileName = obj.songEntry.jsonFileName;
+        conductor.musicClip = Resources.Load<AudioClip>($"Audio/{obj.songEntry.audioFileName}");
+    
+        // using addressable for optimize  memory usage
+        // can use async method for waiting data load
+        Init();
+    }
+
+    private void Init()
+    {
+        SetupStartTile();
+        SetupLinesAndSpawner();
+    }
+
+    private StartTile currentStartTileBtn;
+    private void SetupStartTile()
+    {
+        if (currentStartTileBtn)
+        {
+            Destroy(currentStartTileBtn.gameObject);
+        }
+        
         var parent = GetRandomLineParent();
-        var startTile = Instantiate(startTilePrefab, parent);
-        startTile.RectTransform.anchoredPosition =
-            new Vector2(0, -parent.GetComponent<RectTransform>().rect.height * 0.75f);
+        currentStartTileBtn = Instantiate(startTilePrefab, parent);
+        currentStartTileBtn.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -parent.rect.height * startTileOffsetFactor);
+    }
 
+    private void SetupLinesAndSpawner()
+    {
         lineSpawner.SetLineCounts(lineCounts);
-
-        var width = lineSpawner.GetTileWidth();
-        var height = lineSpawner.GetTileHeight();
-
-        tileSpawner.Init(width, height);
+        tileSpawner.Init(lineSpawner.GetTileWidth(), lineSpawner.GetTileHeight());
     }
 
     public void StartGame()
@@ -62,7 +99,11 @@ public class GameManager : UnitySingleton<GameManager>
             Debug.LogError("Up coming note is null, please check it again!", gameObject);
             return;
         }
-
+        // reset flag
+        
+        winCallFlag = false;
+        isPlayDone = false;
+        
         // if background music start very soon, we should have delay to spawning
         conductor.Setup(bpm, pitchMultiplier,
             AdjustedBeatTime(upcomingNotes.Peek()) < AdjustedFallDuration ? AdjustedFallDuration : 0f);
@@ -75,26 +116,35 @@ public class GameManager : UnitySingleton<GameManager>
 
     private void Update()
     {
-        if (upcomingNotes.Count > 0)
-        {
-            var peek = upcomingNotes.Peek();
-            var adjustedFallDuration = fallDuration / pitchMultiplier;
-            double adjustedTime = peek.beatTime / pitchMultiplier;
-
-            // timing 
-            if (conductor.AudioSource.time >= starTimeBackgroundMusic + adjustedTime - adjustedFallDuration)
-            {
-                tileSpawner.SpawnTile(peek, conductor.AudioSource, GetRandomLineParent(), adjustedFallDuration);
-                upcomingNotes.Dequeue();
-            }
-            
-        }
-        else
-        {
-            particleEnvironmentManager.SetActiveState(false);
-        }
+        HandleNoteSpawning();
     }
 
+    private bool winCallFlag = false;
+    private bool isPlayDone;
+    private void HandleNoteSpawning()
+    {
+        if (isPlayDone) return;
+        
+        if (upcomingNotes.Count == 0)
+        {
+            if (winCallFlag == false)
+            {
+                winCallFlag = true;
+                particleEnvironmentManager.SetActiveState(false);
+                GameEvent<WinGameEvent>.Raise(new WinGameEvent());
+            }
+            return;
+        }
+
+        var peek = upcomingNotes.Peek();
+        double adjustedTime = AdjustedBeatTime(peek);
+
+        if (conductor.AudioSource.time >= starTimeBackgroundMusic + adjustedTime - AdjustedFallDuration)
+        {
+            tileSpawner.SpawnTile(peek, conductor.AudioSource, GetRandomLineParent(), AdjustedFallDuration);
+            upcomingNotes.Dequeue();
+        }
+    }
     private RectTransform GetRandomLineParent()
     {
         var lineIndex = Random.Range(0, lineCounts);
@@ -103,8 +153,18 @@ public class GameManager : UnitySingleton<GameManager>
         return parent;
     }
 
-    public void TryPlayAgain()
+    public void Stop()
     {
-        // stop time scale, wait player tap current note, when player tap note, continue play
+        isPlayDone = true;
     }
+}
+
+public struct WinGameEvent : IGameEvent
+{
+    
+}
+
+public struct LoseGameEvent : IGameEvent
+{
+    
 }

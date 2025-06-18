@@ -16,7 +16,6 @@ public class ParticleEnvironmentManager : MonoBehaviour
     [Button]
     public void SetActiveState(bool isActive)
     {
-        Debug.Log("ParticleEnvironmentManager active: " + isActive);
         foreach (var item in particleSystems)
         {
             if (isActive)

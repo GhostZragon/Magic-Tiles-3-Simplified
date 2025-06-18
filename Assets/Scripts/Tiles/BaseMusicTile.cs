@@ -90,6 +90,7 @@ public abstract class BaseMusicTile : RectCachedMono, IPointerDownHandler
             if (isClick == false)
             {
                 Debug.Log("ban da thua");
+                GameEvent<LoseGameEvent>.Raise(new LoseGameEvent());
             }
             RecoverSelf();
             RectTransform.anchoredPosition = endAnchoredPos;

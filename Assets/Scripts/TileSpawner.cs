@@ -21,6 +21,12 @@ public class TileSpawner : MonoBehaviour
         tilePool = ObjectPoolManager.GetObjectPool(singleTilePrefab.GetComponent<SingleTile>(), 20);
     }
 
+    private void OnDisable()
+    {
+        if(tilePool)
+            tilePool.RecoveryAll();
+    }
+
     public void SpawnTile(NoteData noteData, AudioSource backgroundAudioSource, RectTransform parentRect,
         float fallDuration)
     {

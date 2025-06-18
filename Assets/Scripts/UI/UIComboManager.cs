@@ -15,9 +15,14 @@ public class UIComboManager : MonoBehaviour
 
     private void Awake()
     {
+        
+        GameEvent<ComboEvent>.Register(ShowCombo);
+    }
+
+    private void OnEnable()
+    {
         comboText.text = "";
         comboPanel.SetActive(false);
-        GameEvent<ComboEvent>.Register(ShowCombo);
     }
 
     private void OnDestroy()

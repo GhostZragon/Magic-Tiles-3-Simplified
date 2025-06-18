@@ -38,5 +38,6 @@ public class MusicConductor : MonoBehaviour
 
     public void Stop()
     {
+        audioSource.Stop();
     }
 }

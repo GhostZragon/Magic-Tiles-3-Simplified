@@ -10,6 +10,10 @@ public class UIScoreManager : MonoBehaviour
     private void Awake()
     {
         GameEvent<UpdateScoreEvent>.Register(UpdateScore);
+    }
+
+    private void OnEnable()
+    {
         scoreText.text = "";
     }
 

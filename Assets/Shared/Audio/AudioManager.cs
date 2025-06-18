@@ -19,7 +19,8 @@ public class AudioManager : UnitySingleton<AudioManager>
     protected override void Awake()
     {
         base.Awake();
-        ObjectPoolManager.GetObjectPool(soundBuilderPrefab, 15);
+        soundBuilderPrefab = soundBuilderGameObject.GetComponent<SoundBuilder>();
+        ObjectPoolManager.GetObjectPool(soundBuilderPrefab, 10);
         MusicSoundAsset = GetComponent<MusicSoundAsset>();
     }
 
@@ -58,7 +59,8 @@ public class AudioManager : UnitySingleton<AudioManager>
     }
 
 
-    [SerializeField] private SoundBuilder soundBuilderPrefab;
+    [SerializeField] private GameObject soundBuilderGameObject;
+    private SoundBuilder soundBuilderPrefab;
 
     public SoundBuilder CreateSound(SoundConfig soundConfig, bool timeAffect = true)
     {
