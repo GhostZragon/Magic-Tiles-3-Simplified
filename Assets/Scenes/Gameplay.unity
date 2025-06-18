@@ -285,6 +285,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65809d0c94354d9c8e47e60c57fe8ed4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  beatMapList:
+  - twinkle_little_star_80_1.50_1stars.json
   jsonFileName: twinkle_little_star_80_1.50_1stars.json
 --- !u!1 &519420028
 GameObject:

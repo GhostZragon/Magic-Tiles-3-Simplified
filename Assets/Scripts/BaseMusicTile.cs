@@ -55,19 +55,14 @@ public abstract class BaseMusicTile : RectCachedMono, IPointerDownHandler
 
         if (currentTime >= targetTime)
         {
+            RecoverSelf();
             RectTransform.anchoredPosition = new Vector2(0, endY);
-            isActive = false;
+            isActive = false; 
             return;
         }
 
         float progress = Mathf.InverseLerp(spawnTime, targetTime, currentTime);
         float currentY = Mathf.Lerp(startY, endY, progress);
-
-        if (isClick)
-        {
-            Debug.Log("Hit point is: " + EvaluateHit(currentTime, targetTime));
-            isClick = false;
-        }
 
         RectTransform.anchoredPosition = new Vector2(0, currentY);
     }
