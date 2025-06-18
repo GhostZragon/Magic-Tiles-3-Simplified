@@ -8,8 +8,10 @@ public class GameManager : UnitySingleton<GameManager>
     [Header("References")]
     [SerializeField] private MusicConductor conductor;
 
+    [SerializeField] private ParticleEnvironmentManager particleEnvironmentManager;
     [SerializeField] private TileSpawner tileSpawner;
     [SerializeField] private LineSpawner lineSpawner;
+    [Header("Prefabs")]
     [SerializeField] private StartTile startTilePrefab;
 
     [Header("Settings")]
@@ -67,6 +69,8 @@ public class GameManager : UnitySingleton<GameManager>
 
         // starTimeBackgroundMusic = AudioSettings.dspTime;
         starTimeBackgroundMusic = conductor.AudioSource.time;
+        
+        particleEnvironmentManager.SetActiveState(true);
     }
 
     private void Update()
@@ -83,6 +87,11 @@ public class GameManager : UnitySingleton<GameManager>
                 tileSpawner.SpawnTile(peek, conductor.AudioSource, GetRandomLineParent(), adjustedFallDuration);
                 upcomingNotes.Dequeue();
             }
+            
+        }
+        else
+        {
+            particleEnvironmentManager.SetActiveState(false);
         }
     }
 
