@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameManager : UnitySingleton<GameManager>
 {
@@ -31,7 +32,7 @@ public class GameManager : UnitySingleton<GameManager>
         noteDataLoader = GetComponent<NoteDataLoader>();
         Invoke(nameof(Init), 1f);
     }
-
+    
     [Button]
     public void Init()
     {

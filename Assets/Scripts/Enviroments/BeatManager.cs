@@ -26,11 +26,16 @@ public class BeatManager : UnitySingleton<BeatManager>
             return;
 
         float timeInSeconds = audioSource.timeSamples / (float)audioSource.clip.frequency;
-        float beatsPassed = timeInSeconds * (bpm / 60f); // tổng số beats đã trôi qua
+        float beatsPassed = timeInSeconds * (bpm / 60f); 
 
         foreach (var listener in listeners)
         {
             listener.CheckAndTrigger(beatsPassed);
         }
+    }
+
+    public void SetBpm(float newBpm)
+    {
+        bpm = newBpm;
     }
 }

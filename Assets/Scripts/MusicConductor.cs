@@ -15,27 +15,25 @@ public class MusicConductor : MonoBehaviour
 
     public AudioSource AudioSource => audioSource;
 
+    private BeatManager beatManager;
+
     void Start()
     {
+        beatManager = BeatManager.Instance;
         audioSource = GetComponent<AudioSource>();
     }
 
     public void Setup(float bpm, float pitchMultiplier, float fallingDelay)
     {
-        // audioSource.clip = musicClip;
-        //
-        // secondsPerBeat = 60f / (bpm * pitchMultiplier);
-        // musicStartDspTime = AudioSettings.dspTime + fallingDelay;
-        // audioSource.pitch = pitchMultiplier;
-        // audioSource.PlayScheduled(musicStartDspTime);
-
         audioSource.clip = musicClip;
 
         secondsPerBeat = 60f / (bpm * pitchMultiplier);
         audioSource.pitch = pitchMultiplier;
-
+        
         Debug.Log("Play with delay: " + fallingDelay);
+        
         audioSource.PlayDelayed(fallingDelay);
+        beatManager.SetBpm(bpm);
     }
 
     public void Stop()
