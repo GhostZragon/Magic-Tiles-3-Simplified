@@ -27,6 +27,7 @@ public class MusicConductor : MonoBehaviour
         musicStartDspTime = AudioSettings.dspTime + fallingDelay;
         audioSource.pitch = pitchMultiplier;
         audioSource.PlayScheduled(musicStartDspTime);
+        
     }
     
 }

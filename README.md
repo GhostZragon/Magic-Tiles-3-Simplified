@@ -11,8 +11,9 @@ Controls:
 
 ## ⚙️ Technical Design Choices
 
-
-
+- Built a lightweight custom editor to serialize rhythm chart data into JSON files, enabling quick iteration, easy debugging, and scalable level management.
+- Chose Unity's UI Canvas system to take advantage of flexible layout tools, responsive scaling, and component-based design — ensuring visual consistency across devices and resolutions.
+- Synced gameplay timing using `AudioSettings.dspTime` for frame-independent rhythm accuracy.
 ---
 
 ## 🎯 External Assets Used

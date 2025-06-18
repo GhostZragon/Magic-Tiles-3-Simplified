@@ -88,4 +88,9 @@ public class GameManager : UnitySingleton<GameManager>
 
         return parent;
     }
+
+    public void TryPlayAgain()
+    {
+        // stop time scale, wait player tap current note, when player tap note, continue play
+    }
 }
