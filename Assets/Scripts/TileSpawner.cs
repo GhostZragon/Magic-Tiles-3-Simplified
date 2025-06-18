@@ -21,16 +21,6 @@ public class TileSpawner : MonoBehaviour
         tilePool = ObjectPoolManager.GetObjectPool(singleTilePrefab.GetComponent<SingleTile>(), 20);
     }
 
-    public void SpawnTile(int beat, Transform parent, float fallDuration)
-    {
-        var tile = tilePool.ReUse<SingleTile>(Vector3.zero, singleTilePrefab.transform.rotation, parent);
-        tile.RectTransform.anchoredPosition = Vector2.zero;
-        tile.RectTransform
-            .DOAnchorPos(
-                new Vector2(0, -parent.GetComponent<RectTransform>().rect.height + tile.RectTransform.rect.height / 2),
-                fallDuration).OnComplete(() => { tile.RecoverSelf(); }).SetEase(Ease.Linear);
-    }
-
     public void SpawnTile(NoteData noteData, AudioSource backgroundAudioSource, RectTransform parentRect,
         float fallDuration)
     {
@@ -51,7 +41,7 @@ public class TileSpawner : MonoBehaviour
 
         float startY = hitY + fallDistance;
 
-        var tile = tilePool.ReUse<SingleTile>(Vector3.zero, singleTilePrefab.transform.rotation, parentRect);
+        var tile = tilePool.ReUse<SingleTile>(Vector3.one * 100, singleTilePrefab.transform.rotation, parentRect);
 
         tile.Init(
             hitTime: noteData.beatTime,
