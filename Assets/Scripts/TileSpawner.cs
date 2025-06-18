@@ -14,9 +14,9 @@ public class TileSpawner : MonoBehaviour
     public void Init(float width, float height)
     {
         singleTilePrefab = Instantiate(singleTilePrefab, transform);
-        singleTilePrefab.RectTransform.sizeDelta = new Vector2(width,height);
+        singleTilePrefab.RectTransform.sizeDelta = new Vector2(width, height);
         singleTilePrefab.gameObject.SetActive(false);
-        
+
         tilePool = ObjectPoolManager.GetObjectPool(singleTilePrefab, 20);
     }
 
@@ -28,17 +28,37 @@ public class TileSpawner : MonoBehaviour
             .DOAnchorPos(
                 new Vector2(0, -parent.GetComponent<RectTransform>().rect.height + tile.RectTransform.rect.height / 2),
                 fallDuration).OnComplete(() => { tile.RecoverSelf(); }).SetEase(Ease.Linear);
-
     }
-    
-    public void SpawnTile(NoteData noteData, Transform parent, float fallDuration)
-    {
-        var tile = tilePool.ReUse<SingleTile>(Vector3.zero, singleTilePrefab.transform.rotation, parent);
-        tile.RectTransform.anchoredPosition = Vector2.zero;
-        tile.RectTransform
-            .DOAnchorPos(
-                new Vector2(0, -parent.GetComponent<RectTransform>().rect.height * 0.74f),
-                fallDuration).OnComplete(() => { tile.RecoverSelf(); }).SetEase(Ease.Linear);
 
+    public void SpawnTile(NoteData noteData, AudioSource backgroundAudioSource, RectTransform parentRect,
+        float fallDuration)
+    {
+        float currentTime = backgroundAudioSource.time;
+        float timeUntilHit = noteData.beatTime - currentTime;
+
+        if (timeUntilHit <= 0)
+        {
+            Debug.LogWarning($"To late to spawn note at {noteData.ToString()}, then i will stop spawn this tile",
+                gameObject);
+            return;
+        }
+
+        float parentHeight = parentRect.rect.height;
+        float hitY = -parentHeight * 0.75f;
+
+        float fallDistance = parentHeight * 1.25f;
+
+        float startY = hitY + fallDistance;
+
+
+        var tile = tilePool.ReUse<SingleTile>(Vector3.zero, singleTilePrefab.transform.rotation, parentRect);
+        tile.Init(noteData.beatTime, fallDuration, startY, hitY, backgroundAudioSource);
+
+
+        // tile.RectTransform.anchoredPosition = Vector2.zero;
+        // tile.RectTransform
+        //     .DOAnchorPos(
+        //         new Vector2(0, -parent.GetComponent<RectTransform>().rect.height * 0.75f),
+        //         fallDuration).OnComplete(() => { tile.RecoverSelf(); }).SetEase(Ease.Linear);
     }
 }

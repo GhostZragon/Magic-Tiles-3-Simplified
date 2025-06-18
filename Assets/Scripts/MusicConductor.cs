@@ -13,7 +13,7 @@ public class MusicConductor : MonoBehaviour
     public float secondsPerBeat;
     private int lastBeat = -1;
 
-    
+    public AudioSource AudioSource => audioSource;
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -21,13 +21,22 @@ public class MusicConductor : MonoBehaviour
     
     public void Setup(float bpm, float pitchMultiplier, float fallingDelay)
     {
+        // audioSource.clip = musicClip;
+        //
+        // secondsPerBeat = 60f / (bpm * pitchMultiplier);
+        // musicStartDspTime = AudioSettings.dspTime + fallingDelay;
+        // audioSource.pitch = pitchMultiplier;
+        // audioSource.PlayScheduled(musicStartDspTime);
+        
         audioSource.clip = musicClip;
         
         secondsPerBeat = 60f / (bpm * pitchMultiplier);
-        musicStartDspTime = AudioSettings.dspTime + fallingDelay;
         audioSource.pitch = pitchMultiplier;
-        audioSource.PlayScheduled(musicStartDspTime);
+        audioSource.PlayDelayed(fallingDelay);
+    }
+
+    public void Stop()
+    {
         
     }
-    
 }

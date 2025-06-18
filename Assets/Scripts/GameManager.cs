@@ -25,10 +25,11 @@ public class GameManager : UnitySingleton<GameManager>
     private double starTimeBackgroundMusic;
     private float AdjustedFallDuration => fallDuration / pitchMultiplier;
     private double AdjustedBeatTime(NoteData note) => note.beatTime / pitchMultiplier;
+
     private void Start()
     {
         noteDataLoader = GetComponent<NoteDataLoader>();
-        Invoke(nameof(Init), 2f);
+        Invoke(nameof(Init), 1f);
     }
 
     [Button]
@@ -58,10 +59,13 @@ public class GameManager : UnitySingleton<GameManager>
             Debug.LogError("Up coming note is null, please check it again!", gameObject);
             return;
         }
-        // if background music start very soon, we should have delay to spawning
-        conductor.Setup(bpm,pitchMultiplier, AdjustedBeatTime(upcomingNotes.Peek()) < AdjustedFallDuration ? AdjustedFallDuration : 0f);
 
-        starTimeBackgroundMusic = AudioSettings.dspTime;
+        // if background music start very soon, we should have delay to spawning
+        conductor.Setup(bpm, pitchMultiplier,
+            AdjustedBeatTime(upcomingNotes.Peek()) < AdjustedFallDuration ? AdjustedFallDuration : 0f);
+
+        // starTimeBackgroundMusic = AudioSettings.dspTime;
+        starTimeBackgroundMusic = conductor.AudioSource.time;
     }
 
     private void Update()
@@ -73,15 +77,15 @@ public class GameManager : UnitySingleton<GameManager>
             double adjustedTime = peek.beatTime / pitchMultiplier;
 
             // timing 
-            if (AudioSettings.dspTime >= starTimeBackgroundMusic + adjustedTime - adjustedFallDuration)
+            if (conductor.AudioSource.time >= starTimeBackgroundMusic + adjustedTime - adjustedFallDuration)
             {
-                tileSpawner.SpawnTile(peek, GetRandomLineParent(), adjustedFallDuration);
+                tileSpawner.SpawnTile(peek, conductor.AudioSource, GetRandomLineParent(), adjustedFallDuration);
                 upcomingNotes.Dequeue();
             }
         }
     }
 
-    private Transform GetRandomLineParent()
+    private RectTransform GetRandomLineParent()
     {
         var lineIndex = Random.Range(0, lineCounts);
         var parent = lineSpawner.GetLineTransform(lineIndex);

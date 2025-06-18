@@ -40,7 +40,7 @@ public class LineSpawner : MonoBehaviour
         }
     }
 
-    public Transform GetLineTransform(int index)
+    public RectTransform GetLineTransform(int index)
     {
         return lines[index];
     }
