@@ -44,15 +44,17 @@ public class TileSpawner : MonoBehaviour
         }
 
         float parentHeight = parentRect.rect.height;
-        float hitY = -parentHeight * 0.75f;
-
         float fallDistance = parentHeight * 1.25f;
 
-        float startY = hitY + fallDistance;
+        float startY = 0f; // hoặc startY = parentHeight * 0.5f nếu bạn muốn từ giữa
+        float progressToHit = 0.75f;
+
+        float hitY = startY - fallDistance * progressToHit;
+        float endY = startY - fallDistance;
 
 
         var tile = tilePool.ReUse<SingleTile>(Vector3.zero, singleTilePrefab.transform.rotation, parentRect);
-        tile.Init(noteData.beatTime, fallDuration, startY, hitY, backgroundAudioSource);
+        tile.Init(noteData.beatTime, fallDuration, startY, endY, backgroundAudioSource);
 
 
         // tile.RectTransform.anchoredPosition = Vector2.zero;
