@@ -8,23 +8,29 @@ public class UIScoreText : RectCachedMono
 {
     [SerializeField] private TextMeshProUGUI scoreText;
 
-    public void SetText(string text, Color color)
+    protected override void Awake()
+    {
+        base.Awake();
+        scoreText.text = "";
+    }
+
+    public void SetText(string text, TMP_ColorGradient color)
     {
         scoreText.text = text;
-        scoreText.color = color;
-        RecoverSelf(2f);
+        scoreText.colorGradientPreset = color;
     }
-    private void Animate()
+    
+    public void Animate()
     {
         RectTransform.localScale = Vector3.zero;
         scoreText.alpha = 1f;
 
         Vector3 startPos = RectTransform.anchoredPosition;
-        Vector3 endPos = startPos + new Vector3(0f, 100f, 0f);
+        Vector3 endPos = startPos - new Vector3(0f, 20f, 0f);
 
         Sequence seq = DOTween.Sequence();
         seq.Append(RectTransform.DOScale(Vector3.one, 0.2f).SetEase(Ease.OutBack));
-        seq.Join(RectTransform.DOLocalMove(endPos, 0.7f).SetEase(Ease.OutCubic));
+        // seq.Join(RectTransform.DOLocalMove(endPos, 0.7f).SetEase(Ease.OutCubic));
         seq.Join(scoreText.DOFade(0f, 0.7f).SetEase(Ease.InOutQuad));
         seq.OnComplete(() => ReturnToPool());
     }

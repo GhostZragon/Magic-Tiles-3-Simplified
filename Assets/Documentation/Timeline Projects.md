@@ -42,9 +42,9 @@
 ## 🗓️ Ngày 2 – 18/6 (11h00 - 18h00)
 
 ### ⏰ 11h00 – 13h30 (2.5h): 🎯 Input + Scoring + Game Over
-- [ ] Tap tile → xác định thời điểm (± delta)
-- [ ] Phân loại Perfect / Good / Miss
-- [ ] Tính điểm, cập nhật UI
+- [x] Tap tile → xác định thời điểm (± delta)
+- [x] Phân loại Perfect / Good / Miss
+- [x] Tính điểm, cập nhật UI
 - [ ] Miss → Game Over
 
 ### ⏰ 13h30 – 15h30 (2h): 💥 Feedback + Combo + Long Tap

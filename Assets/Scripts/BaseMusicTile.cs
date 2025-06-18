@@ -1,4 +1,5 @@
-﻿using DG.Tweening;
+﻿using System;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -42,22 +43,8 @@ public abstract class BaseMusicTile : RectCachedMono, IPointerDownHandler
 
     protected virtual void CreateResultText()
     {
-        UIScoreTextManager.CreateTextAction(RectTransform, EvaluateHit(audioSource.time, hitTime));
-    }
-
-    private HitResult EvaluateHit(float currentTime, float targetTime)
-    {
-        float timeOffset = Mathf.Abs(currentTime - targetTime);
-
-        const float perfectThreshold = 0.05f;
-        const float goodThreshold = 0.12f;
-
-        if (timeOffset <= perfectThreshold)
-            return HitResult.Perfect;
-        else if (timeOffset <= goodThreshold)
-            return HitResult.Good;
-        else
-            return HitResult.Miss;
+        var result = HitEvaluator.Evaluate(audioSource.time, hitTime);
+        GameEvent<TileHitEvent>.Raise(new TileHitEvent(result));
     }
 
     private void OnDisable()
@@ -99,7 +86,6 @@ public abstract class BaseMusicTile : RectCachedMono, IPointerDownHandler
 
         if (t > 1f)
         {
-            CreateResultText();
             RecoverSelf();
             RectTransform.anchoredPosition = endAnchoredPos;
             return;
@@ -115,4 +101,19 @@ public enum HitResult
     Miss,
     Good,
     Perfect
+}
+
+public static class HitEvaluator
+{
+    public const float PERFECT_WINDOW = 0.15f; 
+    public const float GOOD_WINDOW = 0.25f;     
+    public const float MISS_WINDOW = 0.3f;   
+
+    public static HitResult Evaluate(float expectedTime, float actualTime)
+    {
+        float delta = Mathf.Abs(expectedTime - actualTime);
+        if (delta <= PERFECT_WINDOW) return HitResult.Perfect;
+        if (delta <= GOOD_WINDOW) return HitResult.Good;
+        return HitResult.Miss;
+    }
 }
