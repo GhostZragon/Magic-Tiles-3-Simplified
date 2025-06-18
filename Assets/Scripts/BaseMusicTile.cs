@@ -50,6 +50,7 @@ public abstract class BaseMusicTile : RectCachedMono, IPointerDownHandler
     private void OnDisable()
     {
         isInitialized = false;
+        isClick = false;
     }
 
     public void Init(float hitTime, float fallDuration, float fallDistance, AudioSource audioSource,
@@ -86,6 +87,10 @@ public abstract class BaseMusicTile : RectCachedMono, IPointerDownHandler
 
         if (t > 1f)
         {
+            if (isClick == false)
+            {
+                Debug.Log("ban da thua");
+            }
             RecoverSelf();
             RectTransform.anchoredPosition = endAnchoredPos;
             return;

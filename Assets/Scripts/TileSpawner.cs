@@ -7,7 +7,7 @@ using UnityEngine;
 public class TileSpawner : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private SingleTile singleTilePrefab;
+    [SerializeField] private GameObject singleTilePrefab;
 
     [SerializeField] private AnimationCurve animationCurve;
     private nObjectPool tilePool;
@@ -15,10 +15,10 @@ public class TileSpawner : MonoBehaviour
     public void Init(float width, float height)
     {
         singleTilePrefab = Instantiate(singleTilePrefab, transform);
-        singleTilePrefab.RectTransform.sizeDelta = new Vector2(width, height);
+        singleTilePrefab.GetComponent<RectTransform>().sizeDelta = new Vector2(width, height);
         singleTilePrefab.gameObject.SetActive(false);
 
-        tilePool = ObjectPoolManager.GetObjectPool(singleTilePrefab, 20);
+        tilePool = ObjectPoolManager.GetObjectPool(singleTilePrefab.GetComponent<SingleTile>(), 20);
     }
 
     public void SpawnTile(int beat, Transform parent, float fallDuration)
