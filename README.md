@@ -12,7 +12,7 @@ Controls:
 ## ⚙️ Technical Design Choices
 
 - Built a lightweight custom editor to serialize rhythm chart data into JSON files, enabling quick iteration, easy debugging, and scalable level management. Enable for player create own custom rhythm charts
-- Chose Unity's UI Canvas system to take advantage of flexible layout tools, responsive scaling, and component-based design — ensuring visual consistency across devices and resolutions.
+- Chose Unity's UI Canvas system to take advantage of flexible layout tools, responsive scaling, and component-based design — ensuring visual consistency across devices and resolutions. Trade of between responsive UI and performance
 - Synced gameplay timing using `AudioSource.Time` for frame-independent rhythm accuracy, and realtime synchronization with player when lose, setup for replay feature.
 
 ---

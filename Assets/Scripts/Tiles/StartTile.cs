@@ -1,6 +1,6 @@
 ﻿public class StartTile : BaseMusicTile
 {
-    protected override void OnClick()
+    public override void OnClick()
     {
         base.OnClick();
         GameManager.Instance.StartGame();

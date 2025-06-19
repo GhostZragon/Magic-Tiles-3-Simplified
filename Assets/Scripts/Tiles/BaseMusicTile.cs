@@ -8,7 +8,6 @@ public abstract class BaseMusicTile : RectCachedMono
 {
     private bool isClick = false;
 
-    [SerializeField] protected Button btn;
 
     private float fallDuration;
     private float fallDistance;
@@ -25,18 +24,12 @@ public abstract class BaseMusicTile : RectCachedMono
     protected override void Awake()
     {
         base.Awake();
-        btn = GetComponent<Button>();
-        btn.onClick.AddListener(OnClick);
         RectTransform.anchorMax = new Vector2(0.5f, 1);
         RectTransform.anchorMin = new Vector2(0.5f, 1);
     }
 
-    private void OnDestroy()
-    {
-        btn.onClick.RemoveListener(OnClick);
-    }
 
-    protected virtual void OnClick()
+    public virtual void OnClick()
     {
         if (isClick) return;
         isClick = true;
