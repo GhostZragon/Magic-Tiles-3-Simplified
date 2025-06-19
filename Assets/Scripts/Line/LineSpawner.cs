@@ -5,6 +5,7 @@ public class LineSpawner : MonoBehaviour
 {
     [SerializeField] private LineLane[] lines;
     [SerializeField] private Transform lineHit;
+    [Header("Settings for editor")]
     [SerializeField] private float tileWidth = 1f;
     [SerializeField] private float verticalPadding = 0f;
     [SerializeField] private float lineSpacing = 0.2f;

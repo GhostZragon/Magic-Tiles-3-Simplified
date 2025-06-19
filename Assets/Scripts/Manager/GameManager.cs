@@ -81,7 +81,7 @@ public class GameManager : UnitySingleton<GameManager>
 
         foreach (NoteData item in upcomingNotes)
         {
-            if (item.type == NoteType.Double)
+            if (item.type == e_NoteType.Double)
             {
                 totalTileTapToWin += 2;
             }
@@ -136,12 +136,4 @@ public class GameManager : UnitySingleton<GameManager>
         }
     }
 
-}
-
-
-public struct EndGameEvent : IGameEvent
-{
-    public e_ResultState ResultState;
-
-    public EndGameEvent(e_ResultState state) => ResultState = state;   
 }

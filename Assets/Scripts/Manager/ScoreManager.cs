@@ -55,21 +55,3 @@ public class ScoreManager : MonoBehaviour
         comboSystem.ResetComboCount();
     }
 }
-
-public struct TileHitEvent : IGameEvent
-{
-    public HitResult result;
-    public TileHitEvent(HitResult _result) => result = _result;
-}
-
-public struct ComboEvent : IGameEvent
-{
-    public int comboCount;
-    public ComboEvent(int _comboCount) => comboCount = _comboCount;
-}
-
-public struct UpdateScoreEvent : IGameEvent
-{
-    public int newScore;
-    public UpdateScoreEvent(int _newScore) => newScore = _newScore;
-}

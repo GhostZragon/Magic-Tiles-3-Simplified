@@ -134,7 +134,7 @@ public class BeatmapExporterEditor : EditorWindow
                 beatTime = beatLoader.beatTimes[i],
                 duration = 0,
                 lineIndex = lineIndex,
-                type = NoteType.Single,
+                type = e_NoteType.Single,
             });
         }
 
