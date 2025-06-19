@@ -100,7 +100,7 @@ public class BeatmapExporterEditor : EditorWindow
                 beatTime = beatLoader.beatTimes[i],
                 duration = 0,
                 lineIndex = i % lineCount,
-                type = NoteType.Tap,
+                type = NoteType.Single,
             });
         }
 

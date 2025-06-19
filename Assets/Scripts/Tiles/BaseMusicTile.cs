@@ -90,7 +90,7 @@ public abstract class BaseMusicTile : RectCachedMono, IPointerDownHandler
             if (isClick == false)
             {
                 Debug.Log("ban da thua", gameObject);
-                // GameEvent<EndGameEvent>.Raise(new EndGameEvent(e_ResultState.Lose));
+                GameEvent<EndGameEvent>.Raise(new EndGameEvent(e_ResultState.Lose));
             }
 
             RecoverSelf();
@@ -101,6 +101,7 @@ public abstract class BaseMusicTile : RectCachedMono, IPointerDownHandler
         float curvedT = moveCurve.Evaluate(t);
         RectTransform.anchoredPosition = Vector2.Lerp(startAnchoredPos, endAnchoredPos, curvedT);
     }
+    
 }
 
 public enum HitResult

@@ -36,9 +36,18 @@ public class UIManager : UnitySingleton<UIManager>
                 Debug.Log($"Add {type} to views", view.gameObject);
             }
 
-            view.Hide();
             UIViewDictionary[type] = view;
         }
+
+        StartCoroutine(WaitForCalculatorUI());
+    }
+    IEnumerator WaitForCalculatorUI()
+    {
+        yield return Yielders.GetWaitForSeconds(0.2f);
+        foreach (var view in UIViewDictionary)
+        {
+            view.Value.Hide();
+        }        
     }
 
     public T Get<T>() where T : BaseView

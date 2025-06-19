@@ -7,9 +7,11 @@ using UnityEngine;
 [Serializable]
 public abstract class BaseState : IState
 {
-    public virtual void Initialize()
+
+    protected GameContext GameContext;
+    public virtual void Initialize(GameContext GameContext)
     {
-        
+        this.GameContext = GameContext;
     }
 
     /// <summary>

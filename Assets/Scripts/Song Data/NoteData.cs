@@ -13,9 +13,9 @@ public struct NoteData
 
 public enum NoteType
 {
-    Tap,
+    Single,
+    Double,
     Hold,
-    Slide,
     Flick
 }
 [System.Serializable]

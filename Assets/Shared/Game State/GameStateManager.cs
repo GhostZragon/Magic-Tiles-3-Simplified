@@ -1,30 +1,69 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using MacacaGames;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.SocialPlatforms.Impl;
 
+public class GameContext
+{
+    public GameManager GameManager { get; set; }
+    public UIManager UIManager { get; set; }
+    public MusicConductor MusicConductor;
+    public ParticleEnvironmentManager ParticleEnvironmentManager ;
+    public ScoreManager ScoreManager;
+    public WinLoseHandleManager WinLoseHandleManager;
+
+    // Add các service hoặc manager khác nếu cần
+}
 
 public class GameStateManager : UnitySingleton<GameStateManager>
 {
     private IState currentState;
     private Dictionary<Type, IState> states = new();
+    private GameContext gameContext;
 
+    public static GameContext GameContext => Instance.gameContext;
+    
     protected override void Awake()
     {
         base.Awake();
+
+        InjectReferences();
+    }
+
+    private void Start()
+    {
         Register(new GameplayState());
         Register(new MainMenuState());
         Register(new ResultState());
         
-        ChangeState<MainMenuState>();
+        StartCoroutine(WaitForCalculatorUI());
     }
 
+    private void InjectReferences()
+    {
+        gameContext = new();
+        
+        gameContext.GameManager = GameManager.Instance;
+        gameContext.MusicConductor = FindFirstObjectByType<MusicConductor>();
+        gameContext.ParticleEnvironmentManager = FindFirstObjectByType<ParticleEnvironmentManager>();
+        gameContext.ScoreManager = FindFirstObjectByType<ScoreManager>();
+        gameContext.WinLoseHandleManager = FindFirstObjectByType<WinLoseHandleManager>();
+        
+    }
+
+    IEnumerator WaitForCalculatorUI()
+    {
+        yield return Yielders.GetWaitForSeconds(0.5f);
+        ChangeState<MainMenuState>();
+        
+    }
+    
     private void Register<T>(T instance) where T : BaseState
     {
         Type type = typeof(T);
         states.Add(type, instance);
-        instance.Initialize();
+        instance.Initialize(gameContext);
     }
 
     public T Get<T>() where T : IState
@@ -35,7 +74,7 @@ public class GameStateManager : UnitySingleton<GameStateManager>
         {
             return (T)state;
         }
-        
+
         return default(T);
     }
 
@@ -46,7 +85,7 @@ public class GameStateManager : UnitySingleton<GameStateManager>
 
     public void ChangeState<T>() where T : BaseState
     {
-        if(states.TryGetValue(typeof(T),out var newState))
+        if (states.TryGetValue(typeof(T), out var newState))
         {
             currentState?.Exit();
 
@@ -59,23 +98,36 @@ public class GameStateManager : UnitySingleton<GameStateManager>
 
 public class GameplayState : BaseState
 {
+    private const int DEFAULT_LINE_COUNT = 4;
     private GameManager gameManager;
     private MusicConductor musicConductor;
-    private WinLoseHandleManager winLoseHandleManager;
+    private ParticleEnvironmentManager particleEnvironmentManager;
+    private ScoreManager scoreManager;
 
-    public override void Initialize()
+    private StartGameSetup startGameSetup;
+    
+
+    public override void Initialize(GameContext GameContext)
     {
-        base.Initialize();
-        gameManager = GameManager.Instance;
-        musicConductor = gameManager.conductor;
+        base.Initialize(GameContext);
+        
+        gameManager = GameContext.GameManager;
+        particleEnvironmentManager = GameContext.ParticleEnvironmentManager;
+        musicConductor = GameContext.MusicConductor;
+        scoreManager = GameContext.ScoreManager;
+
+        startGameSetup = gameManager.GetComponent<StartGameSetup>();
     }
 
     protected override void AfterPrepareState()
     {
         base.AfterPrepareState();
-        // load data into game manager and audio music
+        // Setup in here
+        scoreManager.ResetScoreAndCombo();
         UIManager.Instance.Show<GameplayUI>();
         gameManager.GameState = e_GameState.None;
+        
+        startGameSetup.Init(DEFAULT_LINE_COUNT);
     }
 
     protected override void AfterDestroyState()
@@ -106,22 +158,32 @@ public class GameplayState : BaseState
     }
 
 
-    private void OnWinGameEventHandle(EndGameEvent obj)
+    private void OnWinGameEventHandle(EndGameEvent eventData)
     {
+        particleEnvironmentManager.SetActiveState(false);
+        GameStateManager.Instance.StartCoroutine(Delay(eventData));
+    }
+
+    private IEnumerator Delay(EndGameEvent eventData)
+    {
+        yield return Yielders.GetWaitForSeconds(0.5f);
+        
         musicConductor.Stop();
-        gameManager.Stop();
-        gameManager.GameResult = obj.ResultState;
-        ChangeState<ResultState>();
+        
         gameManager.GameState = e_GameState.Result;
+        gameManager.GameResult = eventData.ResultState;
+        
+        ChangeState<ResultState>();
     }
 }
 
 public class MainMenuState : BaseState
 {
     private MainMenuUI mainMenuUI;
-    public override void Initialize()
+
+    public override void Initialize(GameContext GameContext)
     {
-        base.Initialize();
+        base.Initialize(GameContext);
         mainMenuUI = UIManager.Instance.Get<MainMenuUI>();
         mainMenuUI.uiSongManager.InitSongList();
     }
@@ -137,21 +199,19 @@ public class MainMenuState : BaseState
 public class ResultState : BaseState
 {
     private WinLoseHandleManager winLoseHandleManager;
-    
-    public override void Initialize()
+
+    public override void Initialize(GameContext GameContext)
     {
-        base.Initialize();
-        winLoseHandleManager = GameObject.FindFirstObjectByType<WinLoseHandleManager>();
+        base.Initialize(GameContext);
+        winLoseHandleManager = GameContext.WinLoseHandleManager;
     }
 
     protected override void AfterPrepareState()
     {
         base.AfterPrepareState();
-        
+
         winLoseHandleManager.ShowGameResult(GameManager.Instance.GameResult);
-        
+
         UIManager.Instance.Get<GameplayUI>().ShowResult();
     }
-
 }
-

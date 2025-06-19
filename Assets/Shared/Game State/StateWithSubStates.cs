@@ -7,12 +7,12 @@ public abstract class StateWithSubStates : BaseState
     protected IState currentSubState;
     protected readonly Dictionary<Type, IState> subStates = new();
 
-    protected void RegisterSubState<T>(T state) where T : BaseState
+    protected void RegisterSubState<T>(T state, GameContext gameContext) where T : BaseState
     {
         Type stateType = typeof(T);
 
         subStates[stateType] = state;
-        state.Initialize();
+        state.Initialize(gameContext);
         Debug.Log($" Registered sub-state: {stateType.Name} ");
     }
 

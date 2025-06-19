@@ -11,6 +11,7 @@ public class SingleTile : BaseMusicTile
     {
         base.OnClick();
         CreateResultText();
+        GameManager.Instance.AddTapCount();
         buttonAnimator.Play("Tap");
     }
 

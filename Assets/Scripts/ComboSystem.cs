@@ -17,4 +17,9 @@
             ComboCount = 0;
         }
     }
+
+    public void ResetComboCount()
+    {
+        ComboCount = 0;
+    }
 }

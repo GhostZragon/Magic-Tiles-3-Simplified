@@ -48,6 +48,12 @@ public class ScoreManager : MonoBehaviour
         GameEvent<ComboEvent>.Raise(new ComboEvent(comboSystem.ComboCount));
         GameEvent<UpdateScoreEvent>.Raise(new UpdateScoreEvent(score));
     }
+
+    public void ResetScoreAndCombo()
+    {
+        score = 0;
+        comboSystem.ResetComboCount();
+    }
 }
 
 public struct TileHitEvent : IGameEvent

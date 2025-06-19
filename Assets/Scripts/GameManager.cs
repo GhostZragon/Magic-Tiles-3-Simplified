@@ -12,9 +12,9 @@ public class GameManager : UnitySingleton<GameManager>
     public e_ResultState GameResult;
     public e_GameState GameState;
     [Header("References")]
-    public MusicConductor conductor;
-
+    [SerializeField] private MusicConductor conductor;
     [SerializeField] private ParticleEnvironmentManager particleEnvironmentManager;
+
     [SerializeField] private TileSpawner tileSpawner;
     [SerializeField] private LineSpawner lineSpawner;
     [Header("Settings")]
@@ -25,9 +25,11 @@ public class GameManager : UnitySingleton<GameManager>
 
     [SerializeField] private float pitchMultiplier = 1;
     [SerializeField] private float bpm = 80f;
-   
+
+    private int playerTileTapCount = 0;
+    private int totalTileTapToWin;
+    
     private NoteDataLoader noteDataLoader;
-    private StartGameSetup startGameSetup;
     private Queue<NoteData> upcomingNotes = new();
     
 
@@ -35,15 +37,10 @@ public class GameManager : UnitySingleton<GameManager>
     private float AdjustedFallDuration => fallDuration / pitchMultiplier;
     private double AdjustedBeatTime(NoteData note) => note.beatTime / pitchMultiplier;
     
-    // flags
-    private bool winCallFlag = false;
-    private bool isPlayDone;
-    
 
     private void Start()
     {
         noteDataLoader = GetComponent<NoteDataLoader>();
-        startGameSetup = GetComponent<StartGameSetup>();
         GameEvent<LoadSongEvent>.Register(HandleSongLoadEvent);
     }
 
@@ -64,8 +61,8 @@ public class GameManager : UnitySingleton<GameManager>
         // using addressable for optimize  memory usage
         // can use async method for waiting data load
         
-        startGameSetup.Init(lineCounts);
-        
+        // startGameSetup.Init(lineCounts);
+        tileSpawner.ClearItemInPool();
         GameStateManager.Instance.ChangeState<GameplayState>();
     }
 
@@ -75,13 +72,25 @@ public class GameManager : UnitySingleton<GameManager>
         // delay for first note
         float offset;
         upcomingNotes = noteDataLoader.LoadNoteQueue(out bpm, out offset);
-
+        totalTileTapToWin = 0;
+        playerTileTapCount = 0;
         if (upcomingNotes == null)
         {
             Debug.LogError("Up coming note is null, please check it again!", gameObject);
             return;
         }
-     
+
+        foreach (NoteData item in upcomingNotes)
+        {
+            if (item.type == NoteType.Double)
+            {
+                totalTileTapToWin += 2;
+            }
+            else
+            {
+                totalTileTapToWin += 1;
+            }
+        }
         
         // if background music start very soon, we should have delay to spawning
         conductor.Setup(bpm, pitchMultiplier,
@@ -93,8 +102,6 @@ public class GameManager : UnitySingleton<GameManager>
         particleEnvironmentManager.SetActiveState(true);
         
         // reset flag
-        winCallFlag = false;
-        isPlayDone = false;
         
         Debug.Log("On Start Game" +upcomingNotes.Count);
         GameState = e_GameState.Playing;
@@ -104,17 +111,8 @@ public class GameManager : UnitySingleton<GameManager>
     
     public void UpdateHandleNoteSpawning()
     {
-        if (isPlayDone) return;
-        
         if (upcomingNotes.Count == 0)
         {
-            if (winCallFlag == false)
-            {
-                winCallFlag = true;
-                particleEnvironmentManager.SetActiveState(false);
-                
-                GameEvent<EndGameEvent>.Raise(new EndGameEvent(e_ResultState.Win));
-            }
             return;
         }
 
@@ -128,10 +126,18 @@ public class GameManager : UnitySingleton<GameManager>
         }
     }
 
-    public void Stop()
+    public void AddTapCount()
     {
-        isPlayDone = true;
+        // dont care about result of tap
+        playerTileTapCount += 1;
+
+        if (playerTileTapCount >= totalTileTapToWin)
+        {
+            GameEvent<EndGameEvent>.Raise(new EndGameEvent(e_ResultState.Win));
+            
+        }
     }
+
 }
 
 

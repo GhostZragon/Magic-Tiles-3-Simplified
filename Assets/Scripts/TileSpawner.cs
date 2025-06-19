@@ -18,10 +18,11 @@ public class TileSpawner : MonoBehaviour
         singleTilePrefab.GetComponent<RectTransform>().sizeDelta = new Vector2(width, height);
         singleTilePrefab.gameObject.SetActive(false);
 
-        tilePool = ObjectPoolManager.GetObjectPool(singleTilePrefab.GetComponent<SingleTile>(), 20);
+        if(!tilePool)
+            tilePool = ObjectPoolManager.GetObjectPool(singleTilePrefab.GetComponent<SingleTile>(), 20);
     }
 
-    private void OnDisable()
+    public void ClearItemInPool()
     {
         if(tilePool)
             tilePool.RecoveryAll();

@@ -13334,7 +13334,7 @@ MonoBehaviour:
   - {fileID: 1600557735}
   - {fileID: 838759797}
   linePrefab: {fileID: 6809005472044757382, guid: 7f61a805fdbd9ad47a5bc2348d87f780, type: 3}
-  lineCounts: 0
+  lineCounts: 4
 --- !u!114 &1586724975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13353,6 +13353,7 @@ MonoBehaviour:
   resultUI: {fileID: 194797819}
   resultScoreText: {fileID: 2012820921}
   scoreManager: {fileID: 1183770187}
+  mainMenuBtn: {fileID: 1257832978}
 --- !u!1 &1600557734
 GameObject:
   m_ObjectHideFlags: 0

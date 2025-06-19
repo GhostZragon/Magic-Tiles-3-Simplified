@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Sirenix.OdinInspector;
+using UnityEngine;
 
 public class StartGameSetup : MonoBehaviour
 {
@@ -28,7 +29,7 @@ public class StartGameSetup : MonoBehaviour
         currentStartTileBtn = Instantiate(startTilePrefab, parent);
         currentStartTileBtn.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -parent.rect.height * START_TILE_OFFSET_FACTOR);
     }
-
+    [Button]
     private void SetupLinesAndSpawner(int lineCounts)
     {
         lineSpawner.SetLineCounts(lineCounts);
