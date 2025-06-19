@@ -10,6 +10,7 @@ public class TileSpawner : MonoBehaviour
     [SerializeField] private Transform singleTilePrefab;
 
     [SerializeField] private AnimationCurve animationCurve;
+    [SerializeField] private LineSpawner lineSpawner;
     private nObjectPool tilePool;
 
     public void Init()
@@ -24,7 +25,7 @@ public class TileSpawner : MonoBehaviour
             tilePool.RecoveryAll();
     }
 
-    public void SpawnTile(NoteData noteData, AudioSource backgroundAudioSource, Transform parentTransform,
+    public void SpawnTile(NoteData noteData, AudioSource backgroundAudioSource, LineLane lineLane,
         float fallDuration)
     {
         float currentTime = backgroundAudioSource.time;
@@ -37,17 +38,18 @@ public class TileSpawner : MonoBehaviour
             return;
         }
 
-        float parentHeight = parentTransform.position.y * 1.25f;
-        float fallDistance = -parentTransform.position.y;
+        // float parentHeight = parentTransform.position.y * 1.25f;
+        // float fallDistance = -parentTransform.position.y;
+        float fallPositionY = lineLane.GetBottomPosition().y;
 
 
-        var tile = tilePool.ReUse<SingleTile>(parentTransform.transform.position, singleTilePrefab.transform.rotation,
-            parentTransform);
+        var tile = tilePool.ReUse<SingleTile>(lineLane.GetTopPosition(), singleTilePrefab.transform.rotation);
 
         tile.Init(
             hitTime: noteData.beatTime,
+            hitPerent: lineSpawner.GetHitLinePercent(),
             fallDuration: fallDuration,
-            fallDistance: fallDistance,
+            fallPositionY: fallPositionY,
             audioSource: backgroundAudioSource,
             moveCurve: animationCurve
         );

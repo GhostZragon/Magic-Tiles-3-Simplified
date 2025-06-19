@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a86e84466f11734192c917af34653d4, type: 3}
   m_Name: SFX_Config_Crowed
   m_EditorClassIdentifier: 
-  audioClip: {fileID: 8300000, guid: 85c32612a233feb4ab155039435b1bfb, type: 3}
+  audioClip: {fileID: 8300000, guid: 3793a8176caa1bb4189cf85cd920e78c, type: 3}
   volume: 1
   spatialBlend: 0
   pitch: 1

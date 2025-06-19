@@ -163,8 +163,11 @@ public class GameplayState : BaseState
 
     private void OnWinGameEventHandle(EndGameEvent eventData)
     {
-        particleEnvironmentManager.SetActiveState(false);
-        GameStateManager.Instance.StartCoroutine(Delay(eventData));
+        if (gameManager.GameState == e_GameState.Playing)
+        {
+            particleEnvironmentManager.SetActiveState(false);
+            GameStateManager.Instance.StartCoroutine(Delay(eventData));
+        }
     }
 
     private IEnumerator Delay(EndGameEvent eventData)

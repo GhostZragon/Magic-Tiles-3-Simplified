@@ -26,7 +26,7 @@ public class StartGameSetup : MonoBehaviour
         }
         
         var parent = lineSpawner.GetRandomLineParent();
-        currentStartTileBtn = Instantiate(startTilePrefab, parent);
+        currentStartTileBtn = Instantiate(startTilePrefab);
         currentStartTileBtn.transform.position = new Vector3(parent.transform.position.x,
             parent.transform.position.y * -START_TILE_OFFSET_FACTOR);
     }

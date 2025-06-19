@@ -45,11 +45,11 @@
 - [x] Tap tile → xác định thời điểm (± delta)
 - [x] Phân loại Perfect / Good / Miss
 - [x] Tính điểm, cập nhật UI
-- [ ] Miss → Game Over
+- [x] Miss → Game Over
 
 ### ⏰ 13h30 – 15h30 (2h): 💥 Feedback + Combo + Long Tap
-- [ ] Visual/audio feedback
-- [ ] Combo logic (multiplier theo streak)
+- [x] Visual/audio feedback
+- [x] Combo logic (multiplier theo streak)
 - [ ] **Long Tap Tile**
   - Safe tap từ 50% độ dài
   - Thả tay không tính miss
@@ -60,22 +60,22 @@
   - Spawn 2 tile cùng lúc (PairID)
   - Yêu cầu tap cả 2 trong 0.2s
 - [ ] Background động (parallax)
-- [ ] Hiệu ứng combo text
-- [ ] Kiểm tra performance
+- [x] Hiệu ứng combo text
+- [x] Kiểm tra performance
 
 ### ⏰ 17h45 – 18h00 (0.5h): 🧪 Build test
-- [ ] Kiểm tra input/stuck error
-- [ ] Đo FPS & memory
-- [ ] Đánh giá cảm giác chơi
+- [x] Kiểm tra input/stuck error
+- [x] Đo FPS & memory
+- [x] Đánh giá cảm giác chơi
 
 ---
 
 ## 🗓️ Ngày 3 – 19/6 (sáng): 🧹 Dọn dẹp và nộp bài
 
 ### ⏰ 08h00 – 11h00 (3h): 🧼 Refactor + README + Nộp bài
-- [ ] Refactor code, chia class
-- [ ] Cleanup asset & prefab
-- [ ] Viết README.md:
+- [x] Refactor code, chia class
+- [x] Cleanup asset & prefab
+- [x] Viết README.md:
   - Hướng dẫn chạy game
   - Attribution asset
   - Kiểm tra cuối cùng

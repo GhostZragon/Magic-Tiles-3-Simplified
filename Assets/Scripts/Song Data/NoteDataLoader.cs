@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -22,6 +23,7 @@ public class NoteDataLoader : MonoBehaviour
         BeatmapWrapper beatmap = JsonUtility.FromJson<BeatmapWrapper>(jsonText.text);
         bpm = beatmap.bpm;
         offset = beatmap.offset;
-        return new Queue<NoteData>(beatmap.notes);
+        var sortedNotes = beatmap.notes.OrderBy(n => n.beatTime);
+        return new Queue<NoteData>(sortedNotes);
     }
 }

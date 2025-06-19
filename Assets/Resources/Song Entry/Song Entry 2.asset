@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6784bfe04f504ed39ea212ff6fb789b4, type: 3}
+  m_Name: Song Entry 2
+  m_EditorClassIdentifier: 
+  songId: 02
+  displayName: Song of Sorrow
+  artist: KiaiBeats999
+  audioFileName: song-of-sorrow-284869
+  jsonFileName: song_of_sorrow_136_1.00_2stars
+  thumbnail: {fileID: 0}
+  bpm: 136

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class BaseMusicTile : PoolableObject
 {
+    [SerializeField] private SoundConfig clapSoundConfig;
     private bool isClick = false;
 
 
@@ -24,13 +25,23 @@ public abstract class BaseMusicTile : PoolableObject
     {
         if (isClick) return;
         isClick = true;
+
+        if (clapSoundConfig)
+        {
+            AudioManager.Instance.CreateSound(clapSoundConfig).Play();
+        }
     }
 
 
     protected virtual void CreateResultText()
     {
+        // create result based on hit time
+        
+        // TODO: Create another check based on position hitline like game ref
         var result = HitEvaluator.Evaluate(audioSource.time, hitTime);
         GameEvent<TileHitEvent>.Raise(new TileHitEvent(result));
+        
+        
     }
 
     private void OnDisable()
@@ -39,27 +50,27 @@ public abstract class BaseMusicTile : PoolableObject
         isClick = false;
     }
 
-    public void Init(float hitTime, float fallDuration, float fallDistance, AudioSource audioSource,
+    public void Init(float hitTime,float hitPerent, float fallDuration, float fallPositionY, AudioSource audioSource,
         AnimationCurve moveCurve)
     {
         this.hitTime = hitTime;
         this.fallDuration = fallDuration;
-        this.fallDistance = fallDistance;
+        this.fallDistance = fallPositionY;
         this.audioSource = audioSource;
         this.moveCurve = moveCurve;
 
-        float hitPercent = 0.75f;
+        float hitPercent = hitPerent;
         float timeToHitline = fallDuration * hitPercent;
         spawnTime = hitTime - timeToHitline;
 
         float startY = transform.position.y;
-        float endY = fallDistance;
+        float endY = fallPositionY;
 
         Vector3 currentPos = transform.position;
-       
+
         startPosition = new Vector3(currentPos.x, startY, currentPos.z);
         endPosition = new Vector3(currentPos.x, endY, currentPos.z);
-     
+
         transform.position = startPosition;
 
         isInitialized = true;
@@ -91,7 +102,6 @@ public abstract class BaseMusicTile : PoolableObject
         float curvedT = moveCurve.Evaluate(t);
         transform.position = Vector3.Lerp(startPosition, endPosition, curvedT);
     }
-    
 }
 
 public enum HitResult

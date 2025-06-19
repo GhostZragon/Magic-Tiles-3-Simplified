@@ -93,13 +93,47 @@ public class BeatmapExporterEditor : EditorWindow
         };
 
         int lineCount = 4;
+        int lastLineIndex = -1;
+        int sameLineCount = 0;
+
         for (int i = 0; i < beatLoader.beatTimes.Count; i++)
         {
+            int lineIndex;
+
+            // random line index that different from the last one if we have 2 in a row
+            if (sameLineCount >= 1)
+            {
+                List<int> availableLines = new List<int>();
+                for (int j = 0; j < lineCount; j++)
+                {
+                    if (j != lastLineIndex)
+                    {
+                        availableLines.Add(j);
+                    }
+                }
+
+                lineIndex = availableLines[Random.Range(0, availableLines.Count)];
+            }
+            else
+            {
+                lineIndex = Random.Range(0, lineCount);
+            }
+
+            if (lineIndex == lastLineIndex)
+            {
+                sameLineCount++;
+            }
+            else
+            {
+                sameLineCount = 0;
+                lastLineIndex = lineIndex;
+            }
+
             beatmap.notes.Add(new NoteData
             {
                 beatTime = beatLoader.beatTimes[i],
                 duration = 0,
-                lineIndex = i % lineCount,
+                lineIndex = lineIndex,
                 type = NoteType.Single,
             });
         }

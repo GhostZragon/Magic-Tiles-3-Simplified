@@ -120,7 +120,7 @@ public class GameManager : UnitySingleton<GameManager>
 
         if (conductor.AudioSource.time >= starTimeBackgroundMusic + adjustedTime - AdjustedFallDuration)
         {
-            tileSpawner.SpawnTile(peek, conductor.AudioSource, lineSpawner.GetRandomLineParent(), AdjustedFallDuration);
+            tileSpawner.SpawnTile(peek, conductor.AudioSource, lineSpawner.GetLineTransform(peek.lineIndex), AdjustedFallDuration);
             upcomingNotes.Dequeue();
         }
     }
@@ -133,7 +133,6 @@ public class GameManager : UnitySingleton<GameManager>
         if (playerTileTapCount >= totalTileTapToWin)
         {
             GameEvent<EndGameEvent>.Raise(new EndGameEvent(e_ResultState.Win));
-            
         }
     }
 

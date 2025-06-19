@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5a86e84466f11734192c917af34653d4, type: 3}
-  m_Name: SFX_Config_Losing Game
+  m_Name: SFX_Config_Clap 2
   m_EditorClassIdentifier: 
-  audioClip: {fileID: 8300000, guid: 8517ed5e705dd544bac135bb217f0740, type: 3}
-  volume: 1
+  audioClip: {fileID: 8300000, guid: ba44729ec7779624e982386d040edf79, type: 3}
+  volume: 0.7
   spatialBlend: 0
   pitch: 1
-  isRandomPitch: 0
-  minRandomPitch: 0.5
-  maxRandomPitch: 1
+  isRandomPitch: 1
+  minRandomPitch: 0.75
+  maxRandomPitch: 1.2
   loop: 0
