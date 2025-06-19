@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public abstract class BaseMusicTile : RectCachedMono, IPointerDownHandler
+public abstract class BaseMusicTile : RectCachedMono
 {
     private bool isClick = false;
 
@@ -26,20 +26,22 @@ public abstract class BaseMusicTile : RectCachedMono, IPointerDownHandler
     {
         base.Awake();
         btn = GetComponent<Button>();
-
+        btn.onClick.AddListener(OnClick);
         RectTransform.anchorMax = new Vector2(0.5f, 1);
         RectTransform.anchorMin = new Vector2(0.5f, 1);
     }
 
+    private void OnDestroy()
+    {
+        btn.onClick.RemoveListener(OnClick);
+    }
+
     protected virtual void OnClick()
     {
+        if (isClick) return;
         isClick = true;
     }
 
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        OnClick();
-    }
 
     protected virtual void CreateResultText()
     {

@@ -16,6 +16,6 @@ MonoBehaviour:
   displayName: Twinkle Little Star
   artist: 
   audioFileName: twinkle-twinkle-little-star-background-childrenx27s-music-30-sec-178225
-  jsonFileName: twinkle_little_star_80_1.50_1stars.json
+  jsonFileName: twinkle_little_star_80_1.50_1stars
   thumbnail: {fileID: 0}
   bpm: 80

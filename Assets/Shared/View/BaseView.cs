@@ -6,8 +6,9 @@ using UnityEngine;
 public class BaseView : MonoBehaviour
 {
     [SerializeField] protected CanvasGroup canvasGroup;
-
+    
     [SerializeField] protected GameObject view;
+    private Canvas _canvas;
     public bool IsShowing;
     private void Reset()
     {
@@ -18,6 +19,11 @@ public class BaseView : MonoBehaviour
 
         if (!canvasGroup)
             canvasGroup = view.GetComponent<CanvasGroup>();
+
+        if (!_canvas)
+        {
+            _canvas = GetComponent<Canvas>();
+        }
     }
 
   
