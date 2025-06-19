@@ -13,6 +13,7 @@ public class GameContext
     public ScoreManager ScoreManager;
     public WinLoseHandleManager WinLoseHandleManager;
 
+    public TileSpawner TileSpawner;
     // Add các service hoặc manager khác nếu cần
 }
 
@@ -49,7 +50,8 @@ public class GameStateManager : UnitySingleton<GameStateManager>
         gameContext.ParticleEnvironmentManager = FindFirstObjectByType<ParticleEnvironmentManager>();
         gameContext.ScoreManager = FindFirstObjectByType<ScoreManager>();
         gameContext.WinLoseHandleManager = FindFirstObjectByType<WinLoseHandleManager>();
-        
+        gameContext.TileSpawner = FindFirstObjectByType<TileSpawner>();
+
     }
 
     IEnumerator WaitForCalculatorUI()
@@ -111,6 +113,7 @@ public class GameplayState : BaseState
     {
         base.Initialize(GameContext);
         
+        
         gameManager = GameContext.GameManager;
         particleEnvironmentManager = GameContext.ParticleEnvironmentManager;
         musicConductor = GameContext.MusicConductor;
@@ -167,6 +170,8 @@ public class GameplayState : BaseState
     private IEnumerator Delay(EndGameEvent eventData)
     {
         yield return Yielders.GetWaitForSeconds(0.5f);
+        
+        GameContext.TileSpawner.ClearItemInPool();
         
         musicConductor.Stop();
         

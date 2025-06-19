@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class StartGameSetup : MonoBehaviour
 {
-    private const float START_TILE_OFFSET_FACTOR = 0.75f;
+    private const float START_TILE_OFFSET_FACTOR = 0.55f;
     
     [SerializeField] private LineSpawner lineSpawner;
     [SerializeField] private TileSpawner tileSpawner;

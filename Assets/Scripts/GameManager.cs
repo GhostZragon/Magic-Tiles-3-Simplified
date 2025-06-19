@@ -62,7 +62,6 @@ public class GameManager : UnitySingleton<GameManager>
         // can use async method for waiting data load
         
         // startGameSetup.Init(lineCounts);
-        tileSpawner.ClearItemInPool();
         GameStateManager.Instance.ChangeState<GameplayState>();
     }
 

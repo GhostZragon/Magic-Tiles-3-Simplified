@@ -4,16 +4,7 @@ using UnityEngine;
 
 public class LineSpawner : MonoBehaviour
 {
-    private const float HEIGHT_SCALE_TILE = 0.15f;
-
     [SerializeField] private Transform[] lines;
-
-    [Button]
-    public void InitLines()
-    {
-
-    }
-
 
     public Transform GetLineTransform(int index)
     {
