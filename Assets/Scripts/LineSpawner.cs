@@ -5,42 +5,20 @@ using UnityEngine;
 public class LineSpawner : MonoBehaviour
 {
     private const float HEIGHT_SCALE_TILE = 0.15f;
-    
+
     [SerializeField] private GameObject lineContainer;
-    [SerializeField] private RectTransform[] lines;
+    [SerializeField] private Transform[] lines;
     [SerializeField] private GameObject linePrefab;
     [SerializeField] private int lineCounts;
 
     [Button]
     public void InitLines()
     {
-        Clear();
-        lines = new RectTransform[lineCounts];
-        for (int i = 0; i < lineCounts; i++)
-        {
-            lines[i] = Instantiate(linePrefab, lineContainer.transform).GetComponent<RectTransform>();
-        }
-    }
-    
-    private void Clear()
-    {
-        if (lines != null)
-        {
-            foreach (var item in lines)
-            {
-                if (Application.isPlaying)
-                {
-                    Destroy(item.gameObject);
-                }
-                else
-                {
-                    DestroyImmediate(item.gameObject);
-                }
-            }
-        }
+
     }
 
-    public RectTransform GetLineTransform(int index)
+
+    public Transform GetLineTransform(int index)
     {
         return lines[index];
     }
@@ -50,17 +28,7 @@ public class LineSpawner : MonoBehaviour
         this.lineCounts = lineCounts;
     }
 
-    public float GetTileWidth()
-    {
-        return lines[0].rect.width;
-    }
-    
-    public float GetTileHeight()
-    {
-        return lines[0].rect.height * HEIGHT_SCALE_TILE;
-    }
-
-    public RectTransform GetRandomLineParent()
+    public Transform GetRandomLineParent()
     {
         var randomIndex = Random.Range(0, lineCounts);
         return lines[randomIndex];

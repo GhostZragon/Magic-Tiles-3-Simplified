@@ -12,23 +12,19 @@ public class TileSpawner : MonoBehaviour
     [SerializeField] private AnimationCurve animationCurve;
     private nObjectPool tilePool;
 
-    public void Init(float width, float height)
+    public void Init()
     {
-        singleTilePrefab = Instantiate(singleTilePrefab, transform);
-        singleTilePrefab.GetComponent<RectTransform>().sizeDelta = new Vector2(width, height);
-        singleTilePrefab.gameObject.SetActive(false);
-
-        if(!tilePool)
+        if (!tilePool)
             tilePool = ObjectPoolManager.GetObjectPool(singleTilePrefab.GetComponent<SingleTile>(), 20);
     }
 
     public void ClearItemInPool()
     {
-        if(tilePool)
+        if (tilePool)
             tilePool.RecoveryAll();
     }
 
-    public void SpawnTile(NoteData noteData, AudioSource backgroundAudioSource, RectTransform parentRect,
+    public void SpawnTile(NoteData noteData, AudioSource backgroundAudioSource, Transform parentTransform,
         float fallDuration)
     {
         float currentTime = backgroundAudioSource.time;
@@ -41,14 +37,12 @@ public class TileSpawner : MonoBehaviour
             return;
         }
 
-        float parentHeight = parentRect.rect.height;
-        float hitY = -parentHeight * 0.75f;
+        float parentHeight = parentTransform.position.y;
+        float fallDistance = - parentHeight;
 
-        float fallDistance = parentHeight;
 
-        float startY = hitY + fallDistance;
-
-        var tile = tilePool.ReUse<SingleTile>(Vector3.one * 100, singleTilePrefab.transform.rotation, parentRect);
+        var tile = tilePool.ReUse<SingleTile>(parentTransform.transform.position, singleTilePrefab.transform.rotation,
+            parentTransform);
 
         tile.Init(
             hitTime: noteData.beatTime,

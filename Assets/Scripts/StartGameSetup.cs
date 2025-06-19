@@ -27,13 +27,13 @@ public class StartGameSetup : MonoBehaviour
         
         var parent = lineSpawner.GetRandomLineParent();
         currentStartTileBtn = Instantiate(startTilePrefab, parent);
-        currentStartTileBtn.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -parent.rect.height * START_TILE_OFFSET_FACTOR);
+        currentStartTileBtn.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -parent.transform.position.y * START_TILE_OFFSET_FACTOR);
     }
     [Button]
     private void SetupLinesAndSpawner(int lineCounts)
     {
         lineSpawner.SetLineCounts(lineCounts);
-        tileSpawner.Init(lineSpawner.GetTileWidth(), lineSpawner.GetTileHeight());
+        tileSpawner.Init();
     }
 
 }

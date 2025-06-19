@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public abstract class BaseMusicTile : RectCachedMono
+public abstract class BaseMusicTile : PoolableObject
 {
     private bool isClick = false;
 
@@ -16,17 +16,10 @@ public abstract class BaseMusicTile : RectCachedMono
     private AudioSource audioSource;
     private AnimationCurve moveCurve;
 
-    private Vector2 startAnchoredPos;
-    private Vector2 endAnchoredPos;
+    private Vector3 startPosition;
+    private Vector3 endPosition;
 
     private bool isInitialized = false;
-
-    protected override void Awake()
-    {
-        base.Awake();
-        RectTransform.anchorMax = new Vector2(0.5f, 1);
-        RectTransform.anchorMin = new Vector2(0.5f, 1);
-    }
 
 
     public virtual void OnClick()
@@ -64,8 +57,12 @@ public abstract class BaseMusicTile : RectCachedMono
         float startY = 0f;
         float endY = -fallDistance;
 
-        startAnchoredPos = new Vector2(0f, startY);
-        endAnchoredPos = new Vector2(0f, endY);
+        Vector3 currentPos = transform.position;
+       
+        startPosition = new Vector3(currentPos.x, startY, currentPos.z);
+        endPosition = new Vector3(currentPos.x, endY, currentPos.z);
+     
+        transform.position = startPosition;
 
         isInitialized = true;
     }
@@ -82,19 +79,19 @@ public abstract class BaseMusicTile : RectCachedMono
 
         if (t > 1f)
         {
-            if (isClick == false)
+            if (!isClick)
             {
-                Debug.Log("ban da thua", gameObject);
+                Debug.Log("Bạn đã thua", gameObject);
                 GameEvent<EndGameEvent>.Raise(new EndGameEvent(e_ResultState.Lose));
             }
 
             RecoverSelf();
-            RectTransform.anchoredPosition = endAnchoredPos;
+            transform.position = endPosition;
             return;
         }
 
         float curvedT = moveCurve.Evaluate(t);
-        RectTransform.anchoredPosition = Vector2.Lerp(startAnchoredPos, endAnchoredPos, curvedT);
+        transform.position = Vector3.Lerp(startPosition, endPosition, curvedT);
     }
     
 }
