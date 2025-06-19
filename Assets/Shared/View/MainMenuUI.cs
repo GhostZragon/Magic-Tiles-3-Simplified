@@ -2,15 +2,6 @@ using UnityEngine;
 
 public class MainMenuUI : BaseView
 {
-   [SerializeField] private UISongManager uiSongManager;
+   public UISongManager uiSongManager;
 
-   private void Awake()
-   {
-      uiSongManager = GetComponentInChildren<UISongManager>();
-   }
-
-   private void Start()
-   {
-      uiSongManager.InitSongList();
-   }
 }

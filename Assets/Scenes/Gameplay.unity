@@ -10932,6 +10932,7 @@ GameObject:
   - component: {fileID: 411228700}
   - component: {fileID: 411228701}
   - component: {fileID: 411228702}
+  - component: {fileID: 411228703}
   m_Layer: 0
   m_Name: Game Manger
   m_TagString: Untagged
@@ -10967,11 +10968,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DontDestroyOnLoadWhenInit: 1
+  GameResult: 0
+  GameState: 0
   conductor: {fileID: 1153229830}
   particleEnvironmentManager: {fileID: 1347464580}
   tileSpawner: {fileID: 1266997589}
   lineSpawner: {fileID: 1586724974}
-  startTilePrefab: {fileID: 7948177827292382292, guid: c17a9ee7d5239444fbc7178296de9bcb, type: 3}
   lineCounts: 4
   fallDuration: 1.5
   pitchMultiplier: 1
@@ -10989,6 +10991,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jsonFileName: 
+--- !u!114 &411228703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 411228699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30480b561f1d43cfb5606d9c5606ef12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lineSpawner: {fileID: 1586724974}
+  tileSpawner: {fileID: 1266997589}
+  startTilePrefab: {fileID: 7948177827292382292, guid: c17a9ee7d5239444fbc7178296de9bcb, type: 3}
 --- !u!1 &423662768
 GameObject:
   m_ObjectHideFlags: 0
@@ -11586,7 +11603,7 @@ MonoBehaviour:
   canvasGroup: {fileID: 2035842295}
   view: {fileID: 2035842293}
   IsShowing: 1
-  uiSongManager: {fileID: 0}
+  uiSongManager: {fileID: 1754275230}
 --- !u!1 &712963061
 GameObject:
   m_ObjectHideFlags: 0
@@ -13562,7 +13579,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -3.5, y: 58.099976}
+  m_AnchoredPosition: {x: -3.5, y: 58.100098}
   m_SizeDelta: {x: -126.29999, y: -533.30005}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1622072733

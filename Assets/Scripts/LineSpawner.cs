@@ -59,4 +59,10 @@ public class LineSpawner : MonoBehaviour
     {
         return lines[0].rect.height * HEIGHT_SCALE_TILE;
     }
+
+    public RectTransform GetRandomLineParent()
+    {
+        var randomIndex = Random.Range(0, lineCounts);
+        return lines[randomIndex];
+    }
 }

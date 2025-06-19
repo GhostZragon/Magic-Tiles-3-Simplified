@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public enum GameState
+public enum e_GameState
 {
     None,
     Playing,
@@ -9,17 +9,14 @@ public enum GameState
 }
 public class GameManager : UnitySingleton<GameManager>
 {
-    private const float startTileOffsetFactor = 0.75f;
-
+    public e_ResultState GameResult;
+    public e_GameState GameState;
     [Header("References")]
-    [SerializeField] private MusicConductor conductor;
+    public MusicConductor conductor;
 
     [SerializeField] private ParticleEnvironmentManager particleEnvironmentManager;
     [SerializeField] private TileSpawner tileSpawner;
     [SerializeField] private LineSpawner lineSpawner;
-    [Header("Prefabs")]
-    [SerializeField] private StartTile startTilePrefab;
-
     [Header("Settings")]
     [SerializeField] private int lineCounts = 4;
 
@@ -28,16 +25,25 @@ public class GameManager : UnitySingleton<GameManager>
 
     [SerializeField] private float pitchMultiplier = 1;
     [SerializeField] private float bpm = 80f;
+   
     private NoteDataLoader noteDataLoader;
+    private StartGameSetup startGameSetup;
     private Queue<NoteData> upcomingNotes = new();
+    
 
     private double starTimeBackgroundMusic;
     private float AdjustedFallDuration => fallDuration / pitchMultiplier;
     private double AdjustedBeatTime(NoteData note) => note.beatTime / pitchMultiplier;
+    
+    // flags
+    private bool winCallFlag = false;
+    private bool isPlayDone;
+    
 
     private void Start()
     {
         noteDataLoader = GetComponent<NoteDataLoader>();
+        startGameSetup = GetComponent<StartGameSetup>();
         GameEvent<LoadSongEvent>.Register(HandleSongLoadEvent);
     }
 
@@ -57,33 +63,12 @@ public class GameManager : UnitySingleton<GameManager>
     
         // using addressable for optimize  memory usage
         // can use async method for waiting data load
-        Init();
-    }
-
-    private void Init()
-    {
-        SetupStartTile();
-        SetupLinesAndSpawner();
-    }
-
-    private StartTile currentStartTileBtn;
-    private void SetupStartTile()
-    {
-        if (currentStartTileBtn)
-        {
-            Destroy(currentStartTileBtn.gameObject);
-        }
         
-        var parent = GetRandomLineParent();
-        currentStartTileBtn = Instantiate(startTilePrefab, parent);
-        currentStartTileBtn.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -parent.rect.height * startTileOffsetFactor);
+        startGameSetup.Init(lineCounts);
+        
+        GameStateManager.Instance.ChangeState<GameplayState>();
     }
 
-    private void SetupLinesAndSpawner()
-    {
-        lineSpawner.SetLineCounts(lineCounts);
-        tileSpawner.Init(lineSpawner.GetTileWidth(), lineSpawner.GetTileHeight());
-    }
 
     public void StartGame()
     {
@@ -96,10 +81,7 @@ public class GameManager : UnitySingleton<GameManager>
             Debug.LogError("Up coming note is null, please check it again!", gameObject);
             return;
         }
-        // reset flag
-        
-        winCallFlag = false;
-        isPlayDone = false;
+     
         
         // if background music start very soon, we should have delay to spawning
         conductor.Setup(bpm, pitchMultiplier,
@@ -109,16 +91,18 @@ public class GameManager : UnitySingleton<GameManager>
         starTimeBackgroundMusic = conductor.AudioSource.time;
         
         particleEnvironmentManager.SetActiveState(true);
+        
+        // reset flag
+        winCallFlag = false;
+        isPlayDone = false;
+        
+        Debug.Log("On Start Game" +upcomingNotes.Count);
+        GameState = e_GameState.Playing;
     }
 
-    private void Update()
-    {
-        HandleNoteSpawning();
-    }
 
-    private bool winCallFlag = false;
-    private bool isPlayDone;
-    private void HandleNoteSpawning()
+    
+    public void UpdateHandleNoteSpawning()
     {
         if (isPlayDone) return;
         
@@ -128,7 +112,8 @@ public class GameManager : UnitySingleton<GameManager>
             {
                 winCallFlag = true;
                 particleEnvironmentManager.SetActiveState(false);
-                GameEvent<WinGameEvent>.Raise(new WinGameEvent());
+                
+                GameEvent<EndGameEvent>.Raise(new EndGameEvent(e_ResultState.Win));
             }
             return;
         }
@@ -138,16 +123,9 @@ public class GameManager : UnitySingleton<GameManager>
 
         if (conductor.AudioSource.time >= starTimeBackgroundMusic + adjustedTime - AdjustedFallDuration)
         {
-            tileSpawner.SpawnTile(peek, conductor.AudioSource, GetRandomLineParent(), AdjustedFallDuration);
+            tileSpawner.SpawnTile(peek, conductor.AudioSource, lineSpawner.GetRandomLineParent(), AdjustedFallDuration);
             upcomingNotes.Dequeue();
         }
-    }
-    private RectTransform GetRandomLineParent()
-    {
-        var lineIndex = Random.Range(0, lineCounts);
-        var parent = lineSpawner.GetLineTransform(lineIndex);
-
-        return parent;
     }
 
     public void Stop()
@@ -156,12 +134,10 @@ public class GameManager : UnitySingleton<GameManager>
     }
 }
 
-public struct WinGameEvent : IGameEvent
-{
-    
-}
 
-public struct LoseGameEvent : IGameEvent
+public struct EndGameEvent : IGameEvent
 {
-    
+    public e_ResultState ResultState;
+
+    public EndGameEvent(e_ResultState state) => ResultState = state;   
 }

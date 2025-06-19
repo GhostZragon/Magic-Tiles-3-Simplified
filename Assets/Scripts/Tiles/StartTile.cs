@@ -4,6 +4,6 @@
     {
         base.OnClick();
         GameManager.Instance.StartGame();
-        Destroy(gameObject,0.2f);
+        Destroy(gameObject,0.1f);
     }
 }

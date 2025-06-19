@@ -12,6 +12,7 @@ public class UISongManager : MonoBehaviour
     
     public void InitSongList()
     {
+        // in this time, just call one time
         UISongView.LoadSongEvent = OnLoadSongEntry;
         foreach (var item in songEntries)
         {

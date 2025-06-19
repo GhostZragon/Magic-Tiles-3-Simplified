@@ -36,6 +36,7 @@ public class UIManager : UnitySingleton<UIManager>
                 Debug.Log($"Add {type} to views", view.gameObject);
             }
 
+            view.Hide();
             UIViewDictionary[type] = view;
         }
     }

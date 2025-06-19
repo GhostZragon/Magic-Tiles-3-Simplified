@@ -89,9 +89,10 @@ public abstract class BaseMusicTile : RectCachedMono, IPointerDownHandler
         {
             if (isClick == false)
             {
-                Debug.Log("ban da thua");
-                GameEvent<LoseGameEvent>.Raise(new LoseGameEvent());
+                Debug.Log("ban da thua", gameObject);
+                // GameEvent<EndGameEvent>.Raise(new EndGameEvent(e_ResultState.Lose));
             }
+
             RecoverSelf();
             RectTransform.anchoredPosition = endAnchoredPos;
             return;
@@ -111,9 +112,9 @@ public enum HitResult
 
 public static class HitEvaluator
 {
-    public const float PERFECT_WINDOW = 0.15f; 
-    public const float GOOD_WINDOW = 0.25f;     
-    public const float MISS_WINDOW = 0.3f;   
+    public const float PERFECT_WINDOW = 0.15f;
+    public const float GOOD_WINDOW = 0.25f;
+    public const float MISS_WINDOW = 0.3f;
 
     public static HitResult Evaluate(float expectedTime, float actualTime)
     {

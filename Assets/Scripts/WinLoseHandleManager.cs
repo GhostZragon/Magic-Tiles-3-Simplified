@@ -2,45 +2,24 @@
 
 public class WinLoseHandleManager : MonoBehaviour
 {
-    public enum ResultState
-    {
-        Win,
-        Lose
-    }
+   
 
     [SerializeField] private MusicConductor conductor;
     [SerializeField] private SoundConfig winSoundConfig;
     [SerializeField] private SoundConfig loseSoundConfig;
+    
 
-    private void Awake()
+    public void ShowGameResult(e_ResultState eResultState)
     {
-        GameEvent<WinGameEvent>.Register(OnWinGameEventHandle);
-        GameEvent<LoseGameEvent>.Register(OnLoseGameEventHandle);
-    }
-
-    private void OnDestroy()
-    {
-        GameEvent<WinGameEvent>.Unregister(OnWinGameEventHandle);
-        GameEvent<LoseGameEvent>.Unregister(OnLoseGameEventHandle);
-    }
-
-    private void OnLoseGameEventHandle(LoseGameEvent obj)
-    {
-        ShowGameResult(ResultState.Lose);
-    }
-
-    private void OnWinGameEventHandle(WinGameEvent obj)
-    {
-        ShowGameResult(ResultState.Win);
-    }
-
-    private void ShowGameResult(ResultState resultState)
-    {
-        Debug.Log("Game Result : " + resultState);
-        conductor.Stop();
-        GameManager.Instance.Stop();
+        
+        Debug.Log("Game Result : " + eResultState);
+ 
 
         UIManager.Instance.Get<GameplayUI>().ShowResult();
-        AudioManager.Instance.CreateSound(resultState == ResultState.Win ? winSoundConfig : loseSoundConfig).Play();
+        AudioManager.Instance.CreateSound(eResultState == e_ResultState.Win ? winSoundConfig : loseSoundConfig).Play();
     }
+} public enum e_ResultState
+{
+    Win,
+    Lose
 }
