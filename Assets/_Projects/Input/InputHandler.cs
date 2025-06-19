@@ -83,7 +83,7 @@ public partial class @InputHandler: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""fd2f3b7f-cb55-4b67-9a67-76f93b98a88c"",
-                    ""path"": ""<Touchscreen>/primaryTouch/tap"",
+                    ""path"": ""<Touchscreen>/Press"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
