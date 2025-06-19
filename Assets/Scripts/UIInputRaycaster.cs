@@ -32,33 +32,22 @@ public class UIInputRaycaster : MonoBehaviour
     private void OnTap(InputAction.CallbackContext context)
     {
         Vector2 screenPos = inputActions.Player.Point.ReadValue<Vector2>();
-        Debug.Log($"[Input] Tap at {screenPos}");
+        Vector2 worldPos = uiCamera.ScreenToWorldPoint(screenPos);
 
-        // Setup pointer event for raycasting
-        PointerEventData pointerData = new PointerEventData(eventSystem)
+        RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.zero);
+        if (hit.collider != null)
         {
-            position = screenPos
-        };
-
-        List<RaycastResult> results = new List<RaycastResult>();
-        graphicRaycaster.Raycast(pointerData, results);
-
-        if (results.Count == 0)
-        {
-            Debug.LogWarning("[Raycast] Nothing hit!");
-            return;
-        }
-
-        foreach (var result in results)
-        {
-            Debug.Log($"[Raycast] Hit: {result.gameObject.name}");
-            BaseMusicTile tile = result.gameObject.GetComponent<BaseMusicTile>();
+            Debug.Log($"[Raycast2D] Hit: {hit.collider.name}");
+            BaseMusicTile tile = hit.collider.GetComponentInParent<BaseMusicTile>();
             if (tile != null)
             {
                 Debug.Log("[Tile] Found BaseMusicTile – calling OnClick()");
                 tile.OnClick();
-                break;
             }
+        }
+        else
+        {
+            Debug.LogWarning("[Raycast2D] Nothing hit!");
         }
     }
 }

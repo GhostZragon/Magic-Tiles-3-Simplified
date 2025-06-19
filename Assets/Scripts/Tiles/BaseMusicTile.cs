@@ -1,8 +1,6 @@
 ﻿using System;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 public abstract class BaseMusicTile : PoolableObject
 {
@@ -54,8 +52,8 @@ public abstract class BaseMusicTile : PoolableObject
         float timeToHitline = fallDuration * hitPercent;
         spawnTime = hitTime - timeToHitline;
 
-        float startY = 0f;
-        float endY = -fallDistance;
+        float startY = transform.position.y;
+        float endY = fallDistance;
 
         Vector3 currentPos = transform.position;
        
@@ -82,7 +80,7 @@ public abstract class BaseMusicTile : PoolableObject
             if (!isClick)
             {
                 Debug.Log("Bạn đã thua", gameObject);
-                GameEvent<EndGameEvent>.Raise(new EndGameEvent(e_ResultState.Lose));
+                // GameEvent<EndGameEvent>.Raise(new EndGameEvent(e_ResultState.Lose));
             }
 
             RecoverSelf();

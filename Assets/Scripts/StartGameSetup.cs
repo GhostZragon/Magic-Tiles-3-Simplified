@@ -14,7 +14,7 @@ public class StartGameSetup : MonoBehaviour
 
     public void Init(int count)
     {
-        SetupLinesAndSpawner(count);
+        tileSpawner.Init();
         SetupStartTile();
     }
     
@@ -27,13 +27,8 @@ public class StartGameSetup : MonoBehaviour
         
         var parent = lineSpawner.GetRandomLineParent();
         currentStartTileBtn = Instantiate(startTilePrefab, parent);
-        currentStartTileBtn.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -parent.transform.position.y * START_TILE_OFFSET_FACTOR);
-    }
-    [Button]
-    private void SetupLinesAndSpawner(int lineCounts)
-    {
-        lineSpawner.SetLineCounts(lineCounts);
-        tileSpawner.Init();
+        currentStartTileBtn.transform.position = new Vector3(parent.transform.position.x,
+            parent.transform.position.y * -START_TILE_OFFSET_FACTOR);
     }
 
 }

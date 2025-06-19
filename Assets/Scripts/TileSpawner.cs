@@ -7,7 +7,7 @@ using UnityEngine;
 public class TileSpawner : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private GameObject singleTilePrefab;
+    [SerializeField] private Transform singleTilePrefab;
 
     [SerializeField] private AnimationCurve animationCurve;
     private nObjectPool tilePool;
@@ -37,8 +37,8 @@ public class TileSpawner : MonoBehaviour
             return;
         }
 
-        float parentHeight = parentTransform.position.y;
-        float fallDistance = - parentHeight;
+        float parentHeight = parentTransform.position.y * 1.25f;
+        float fallDistance = -parentTransform.position.y;
 
 
         var tile = tilePool.ReUse<SingleTile>(parentTransform.transform.position, singleTilePrefab.transform.rotation,
