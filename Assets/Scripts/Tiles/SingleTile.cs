@@ -12,12 +12,12 @@ public class SingleTile : BaseMusicTile
         base.OnClick();
         CreateResultText();
         GameManager.Instance.AddTapCount();
-        // buttonAnimator?.Play("Tap");
+        buttonAnimator?.Play("Tap");
     }
 
     public override void OnReUse()
     {
         base.OnReUse();
-        // buttonAnimator?.Play("Idle",0,0);
+        buttonAnimator?.Play("Idle",0,0);
     }
 }

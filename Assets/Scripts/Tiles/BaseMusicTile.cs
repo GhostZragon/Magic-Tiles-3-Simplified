@@ -80,7 +80,7 @@ public abstract class BaseMusicTile : PoolableObject
             if (!isClick)
             {
                 Debug.Log("Bạn đã thua", gameObject);
-                // GameEvent<EndGameEvent>.Raise(new EndGameEvent(e_ResultState.Lose));
+                GameEvent<EndGameEvent>.Raise(new EndGameEvent(e_ResultState.Lose));
             }
 
             RecoverSelf();
