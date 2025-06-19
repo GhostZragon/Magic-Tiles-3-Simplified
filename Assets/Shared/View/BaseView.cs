@@ -6,8 +6,9 @@ using UnityEngine;
 public class BaseView : MonoBehaviour
 {
     [SerializeField] protected CanvasGroup canvasGroup;
-
+    
     [SerializeField] protected GameObject view;
+    private Canvas _canvas;
     public bool IsShowing;
     private void Reset()
     {
@@ -18,11 +19,18 @@ public class BaseView : MonoBehaviour
 
         if (!canvasGroup)
             canvasGroup = view.GetComponent<CanvasGroup>();
+
+        if (!_canvas)
+        {
+            _canvas = GetComponent<Canvas>();
+        }
     }
 
   
     public virtual async Task Show(bool isAnimated = false)
     {
+        canvasGroup.gameObject.SetActive(true);
+        SetBlockRaycast(true);
         if (isAnimated)
         {
             var UITask = canvasGroup.DOFade(1,1).AsyncWaitForCompletion();
@@ -37,14 +45,18 @@ public class BaseView : MonoBehaviour
 
     public virtual async Task Hide(bool isAnimated = false)
     {
+        SetBlockRaycast(false);
         if (isAnimated)
         {
             var UITask = canvasGroup.DOFade(0,1).AsyncWaitForCompletion();
 
             await Task.WhenAll(UITask);
+            canvasGroup.gameObject.SetActive(false);
             return;
         }
+
         canvasGroup.DOFade(0, 0);
+        canvasGroup.gameObject.SetActive(false);
         
     }
 

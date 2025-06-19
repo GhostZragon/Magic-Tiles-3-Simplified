@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Start Tile - 2D Version
+  m_Controller: {fileID: 9100000, guid: 5a5a975fa5282ce488cd0b383a7feb6d, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 5c23287b30ba379438729292f932cd92, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: c01c310a966c6c14ea219246a6ae0ed0, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 06cebf82a69343d4990c71e87d1e9bd8, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 36098ad0b2bfe894691547ac8aadb733, type: 2}
