@@ -50,9 +50,6 @@ public class GameManager : UnitySingleton<GameManager>
 
     private void HandleSongLoadEvent(LoadSongEvent obj)
     {
-        UIManager.Instance.Get<GameplayUI>().Show();
-        UIManager.Instance.Get<MainMenuUI>().Hide();
-        
         // TODO: Make Sure Unload in future if have time
         // Just load beat map and audio clip
         noteDataLoader.jsonFileName = obj.songEntry.jsonFileName;

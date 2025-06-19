@@ -4,14 +4,18 @@ using MacacaGames;
 using UnityEngine.SceneManagement;
 
 
-public class GameStateManager : Singleton<GameStateManager>
+public class GameStateManager : UnitySingleton<GameStateManager>
 {
     private IState currentState;
     private Dictionary<Type, IState> states = new();
 
-    public GameStateManager()
+    protected override void Awake()
     {
+        base.Awake();
+        Register(new GameplayState());
+        Register(new MainMenuState());
         
+        ChangeState<MainMenuState>();
     }
 
     private void Register<T>(T instance) where T : BaseState
@@ -33,8 +37,11 @@ public class GameStateManager : Singleton<GameStateManager>
         return default(T);
     }
 
-    
-    
+    private void Update()
+    {
+        currentState?.Update();
+    }
+
     public void ChangeState<T>() where T : BaseState
     {
         if(states.TryGetValue(typeof(T),out var newState))
@@ -45,5 +52,25 @@ public class GameStateManager : Singleton<GameStateManager>
 
             currentState.Enter();
         }
+    }
+}
+
+public class GameplayState : BaseState
+{
+    protected override void AfterPrepareState()
+    {
+        base.AfterPrepareState();
+        // load data into game manager and audio music
+        UIManager.Instance.Show<GameplayUI>();
+    }
+}
+
+public class MainMenuState : BaseState
+{
+    protected override void AfterPrepareState()
+    {
+        base.AfterPrepareState();
+        // load data into game manager and audio music
+        UIManager.Instance.Show<MainMenuUI>();
     }
 }
